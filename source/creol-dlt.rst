@@ -45,7 +45,7 @@ While the inner workings of the contracts can be found in the NatSpec of the con
 ``constructor (bool defaultState, address _roomContract,address _roomOwner, uint256 _daliShortAddress, uint256 _LEDDim, uint256 _LEDWattage)`` The constructor takes a defaultState of the LED (on/off), LED Wattage and the DALI Dim of 0-254 (Representing 0-100%)
 Each LED contract requires a "RoomContract" which is the room contract to which the LED is deployed to. As well as the owner of the room. 
 
-These are automatically taken care of when deploying new hardware and using the RoomState contract to do so. The LEDFactory ensures that this is done properly using the interface and the LEDLibrary as a gas optimization. 
+These are automatically taken care of when deploying new hardware and using the RoomState contract to do so. The LEDFactory.sol ensures that this is done properly using the LEDStateInterface.sol and the LEDLibrary.sol as a gas optimization. 
 
 Each LED maintains individual control of its:
 
@@ -67,4 +67,27 @@ Considerations
 ^^^^^^^^^^^^^^
 
 While the system is heavily reliant on outside information, the firmware running the hardware is written in such a way that tracks faults and sets the state to Off if the LED fails in some sort of way.
+It is far from the self-signing Pythias enabled LEDs that would completely close this system to be fully trustless, but those are work in progresses by various entities in the space. 
+
+RoomState
+---------
+
+This contract hold groups of LED contracts within structs defined by the hardware currently known as  "CreezyPi". The hardware deploys this contract when it is the first to be initialized in a room. 
+Subsequent groups are then deployed based on the DALI groups found within the room. It also extends the group functionality to modfiying the Dim and State of the LEDs found in the system. 
+function ``addCreezy`` is responsible for adding the entirety of the DALI system that is deployed and detected by the CreezyPi. Currently this process is manually done by the end user when they are in the room and have the Creol dApp. 
+However, in future, this will be handled automatically using the Creol BIM module. 
+
+GridMix
+-------
+
+This is a simple Oracle service used to retrieve the current Grid mix of a country using the electricityAPI. The entire purpose is to simplify the calculation of real time offsets when burning the ``creol-carbon-eth`` VCS subtokens to account for the usage.
+Currently, this is hardcoded using a test API key. However, users wishing to use this service will have to provide their own API key in the future. 
+
+Note on Security
+----------------
+
+While this set of contracts provides the base level of usage to be functional. It still is under heavy development and is subject to change. That being said, it also requires a security audit as well as more in depth, state checking/verification of inputs to ensure fuzzing doesnt render the system useless.
+This is largely mitigated by using ACL (Access Control Lists) to manage the ownership but does not prevent the user from misusing or sending false input to the contracts.
+
+
 
