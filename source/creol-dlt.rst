@@ -17,7 +17,7 @@ Creol-Eth
 
 Creol-Eth is the primary repository for smart contracts pertaining to storing and managing the state of the built environment it is deployed for. 
 At present time it is centered around Lighting and Lighting control. More extensions for HVAC/Blinds/etc are currently being developed and this document will be updated when they are deployed.
-It relies on a hardware device described in ``creol-hardware`` to be installed in the building to cryptographically sign and report information about the DALI system. This Oracle provides state information to the contracts about each LED found within a space.
+It relies on a hardware device described in ``creol-hardware`` to be installed in the building to cryptographically sign and report information about the DALI system. This pseudo-Oracle provides state information to the contracts about each LED found within a space.
 For more detailed information on how these interact checkout the Intro to the Creol Network page. 
 
 Background
@@ -42,7 +42,8 @@ LEDState
 This contract pertains to the state of an LED found within a built environment that is controlled using DALI by either the Creol Hardware or by another DALI/Creol enabled device.
 While the inner workings of the contracts can be found in the NatSpec of the contracts. A high level overview of what it does is as follows:
 
-``constructor (bool defaultState, address _roomContract,address _roomOwner, uint256 _daliShortAddress, uint256 _LEDDim, uint256 _LEDWattage)`` The constructor takes a defaultState of the LED (on/off), LED Wattage and the DALI Dim of 0-254 (Representing 0-100%)
+``constructor (bool defaultState, address _roomContract,address _roomOwner, uint256 _daliShortAddress, 
+uint256 _LEDDim, uint256 _LEDWattage)`` The constructor takes a defaultState of the LED (on/off), LED Wattage and the DALI Dim of 0-254 (Representing 0-100%)
 Each LED contract requires a "RoomContract" which is the room contract to which the LED is deployed to. As well as the owner of the room. 
 
 These are automatically taken care of when deploying new hardware and using the RoomState contract to do so. The LEDFactory.sol ensures that this is done properly using the LEDStateInterface.sol and the LEDLibrary.sol as a gas optimization. 
@@ -67,7 +68,7 @@ Considerations
 ^^^^^^^^^^^^^^
 
 While the system is heavily reliant on outside information, the firmware running the hardware is written in such a way that tracks faults and sets the state to Off if the LED fails in some sort of way.
-It is far from the self-signing Pythias enabled LEDs that would completely close this system to be fully trustless, but those are work in progresses by various entities in the space. 
+It is far from the self-signing Pythias enabled LEDs that would completely close this system to be fully trustless, but those are work in progresses by various entities in the IoT space. 
 
 RoomState
 ---------
@@ -90,4 +91,23 @@ While this set of contracts provides the base level of usage to be functional. I
 This is largely mitigated by using ACL (Access Control Lists) to manage the ownership but does not prevent the user from misusing or sending false input to the contracts.
 
 
+Creol-Carbon-Eth
+================
 
+Creol-Carbon-Eth is the primary repository for smart contracts pertaining to carbon crediting and offsetting. It is currently based on the standard of the VCS (Verified Carbon Standard) system. Carbon credits exist as special purpose ERC-721 NFTs and are then subtokenized into ERC-20s to represent each gram in the tonne of carbon the credit represents. 
+For regulatory reasons, Creol is currently the only entity that is able to issue these NFTs on the Creol Network, although work is being done to transition this to a completely permissionless, trustless carbon accounting system. For now, users will have to purchase already tokenized credits from Creol or receive them as part of the subscription arrangement with Creol.
+
+Background
+----------
+
+The primary motivation for this set of smart contracts is to build a VCS duplicate system that is able to be micro offset to a single gram used within a space able to result in by the second micro offsetting if desired by the consumer. 
+
+CarbonVCU
+---------
+
+This is the NFT that represents the VCS like credit that was onboarded onchain. It has a metadata and is mintable as VCS credits are often done in lots and sets that are identical except for the issue number. These NFTs function exactly how normal ERC721 tokens do and carry all the same features such as non-fungibility, transferrability etc.
+
+VCUSubToken
+-----------
+
+This the ERC-20 Sub tokenization of the VCU NFT that is a burnable token. By burning the tokens you are effectively "offsetting" or "retiring" them just like in traditional carbon registry systems. 
