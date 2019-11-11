@@ -24,7 +24,10 @@ While each section does its best to breakdown the concepts used within it would 
 * DALI
 * Solidity (Ethereum Programming Language)
 * Smart Contracts
-*
+* dApps
+* BIM
+* Carbon Offsets
+* GHG Accounting/Measurement
 
 Contents
 ========
@@ -40,6 +43,7 @@ Contents
    creol-dapp.rst
    creol-hardware.rst
    contributing.rst
+   creol-bim.rst
 
 
 
