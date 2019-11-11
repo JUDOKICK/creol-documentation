@@ -6,7 +6,7 @@
 The Creol Network
 =================
 
-.. image:: logo.jpg
+.. image:: CreolIcon.png
 	:width: 120px
 	:alt: Creol Logo
 	:align: center
@@ -18,9 +18,10 @@ The entire network comprises of a few key constituent parts which are all docume
 * `Creol DLT (Blockchain Components) <https://creol.readthedocs.io>`_ (Work in Progress)
 * `Creol dApp (Mobile app for interacting with the DLT Components) <https://creol.readthedocs.io>`_ (Work in Progress)
 * `Creol Hardware <https://creol.readthedocs.io>`_ (Work in Progress)
-* 'Creol BIM <https://creol.readthedocs.io>'_ (Work in Progress)
+* `Creol BIM <https://creol.readthedocs.io>`_ (Work in Progress)
 
-While each section does its best to breakdown the concepts used within it would be important to familiarize yourself with specific key concepts such as
+While each section does its best to breakdown the concepts used within it would be important to familiarize yourself with specific key concepts such as:
+
 * DALI
 * Solidity (Ethereum Programming Language)
 * Smart Contracts
