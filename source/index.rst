@@ -13,11 +13,18 @@ The Creol Network
 
 Creol is a trustless network for enabling the monitoring, energy reduction and carbon offset of the built environment. 
 
-The entire network comprises of three key constituent parts which are all documented here on their function and their behavior. They are as follows:
+The entire network comprises of a few key constituent parts which are all documented here on their function and their behavior. They are as follows:
 
 * `Creol DLT (Blockchain Components) <https://creol.readthedocs.io>`_ (Work in Progress)
 * `Creol dApp (Mobile app for interacting with the DLT Components) <https://creol.readthedocs.io>`_ (Work in Progress)
 * `Creol Hardware <https://creol.readthedocs.io>`_ (Work in Progress)
+* 'Creol BIM <https://creol.readthedocs.io>'_ (Work in Progress)
+
+While each section does its best to breakdown the concepts used within it would be important to familiarize yourself with specific key concepts such as
+* DALI
+* Solidity (Ethereum Programming Language)
+* Smart Contracts
+*
 
 Contents
 ========
