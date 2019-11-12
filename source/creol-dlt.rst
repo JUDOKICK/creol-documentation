@@ -30,9 +30,9 @@ By enabling this, the second component ``creol-carbon-eth``	is able to trustless
 Quick Start
 -----------
 
-1. npm install will install all the required packages to run these smart contracts.
+1. ``npm install`` will install all the required packages to run these smart contracts.
 
-2. Run truffle compile to compile the contracts with the dependencies such as openzeppelin/oraclize (now provable) etc.
+2. Run ``truffle compile`` to compile the contracts with the dependencies such as openzeppelin/oraclize (now provable) etc.
 
 3. Contracts can then be deployed with Remix IDE
 
@@ -106,7 +106,7 @@ CarbonVCU
 ---------
 
 This is the NFT that represents the VCS like credit that was onboarded onchain. It has a metadata and is mintable as VCS credits are often done in lots and sets that are identical except for the issue number. These NFTs function exactly how normal ERC721 tokens do and carry all the same features such as non-fungibility, transferrability etc.
-
+More details on the exact mechanisms can be found in the NatSpec of the contract. 
 VCUSubToken
 -----------
 
