@@ -107,6 +107,7 @@ CarbonVCU
 
 This is the NFT that represents the VCS like credit that was onboarded onchain. It has a metadata and is mintable as VCS credits are often done in lots and sets that are identical except for the issue number. These NFTs function exactly how normal ERC721 tokens do and carry all the same features such as non-fungibility, transferrability etc.
 More details on the exact mechanisms can be found in the NatSpec of the contract. 
+
 VCUSubToken
 -----------
 
