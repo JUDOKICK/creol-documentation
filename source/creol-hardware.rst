@@ -93,6 +93,32 @@ From here youll be prompted with the Creol menu. Type
 	
 To begin the creezypi monitoring. This procedure should be combined with the use of ``screen`` to enable easy to resume viewing of the system and for troubleshooting.
 
+Classes
+-------
+
+daliBus.py
+^^^^^^^^^^
+
+daliBus is the class used to convert commands to serial comms to the ATX LED DALI hat. It supports all types of commands relayed to the version 1 board. The new boards with multiple DALI universes have a new command set that is being added to this class. 
+
+dali_init  						- Initializes a new DALI network
+dali_send_xxx_cmd   			- Sends a framed command with either 8 bits, 16 bits, 16 bits twice or 24 bits. It has a confirm flag which is a flag that resends the command in case of BUS collisions.
+dali_search_address 			- Searches existing dali network for devices that are already initialized
+dali_search_and_assign_address  - Searches randomized addresses and initializes them with a DALI 64 address.
+
+statemonitor.py
+^^^^^^^^^^^^^^^
+
+This is the current interface for dealing with the state changes on chain. It monitors a "RoomState" contract and pulls the initial LED data when initializing. Afterwards the it used to listen for events using an Infura connection.
+
+creezypi.py
+^^^^^^^^^^^
+
+This is the script that runs the CreezyPi in its entirety. It is a very simple call/response design. It monitors an Infura node at specific contracts for LED changes. 
+From here you can access the dalibus and the statemonitor functions with some abstractions in the menu. 
+
+
+
 Considerations
 --------------
 
