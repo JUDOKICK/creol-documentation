@@ -11,11 +11,11 @@ The Creol Network
 	:alt: Creol Logo
 	:align: center
 
-Creol is a trustless network for enabling the monitoring, energy reduction and carbon offset of the built environment. 
+Creol is a trustless network for enabling the monitoring, energy reduction and carbon offset of the built environment.
 This system as a whole enables the concept of DABEs (Decentralized Autonomous Built Environments).
 
-The primary motivation for this project is to enable trustless oracles within the energy monitoring, reduction and offset within buildings. The reason for this is there currently is no good way for reducing energy other than at a macro scale. 
-We at Creol, have built one of the first systems that is able to provide fine tune detail about such energy interaction. We also enable the reduction of said usage as well as the carbon offset of this usage. 
+The primary motivation for this project is to enable trustless oracles within the energy monitoring, reduction and offset within buildings. The reason for this is there currently is no good way for reducing energy other than at a macro scale.
+We at Creol, have built one of the first systems that is able to provide fine tune detail about such energy interaction. We also enable the reduction of said usage as well as the carbon offset of this usage.
 
 The entire network comprises of a few key constituent parts which are all documented here on their function and their behavior. They are as follows:
 
@@ -44,10 +44,11 @@ Contents
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-   
+
    introduction-to-creol-system.rst
    creol-dlt.rst
    creol-dapp.rst
+   creol-offsets.rst
    creol-hardware.rst
    contributing.rst
    creol-bim.rst
