@@ -25,7 +25,7 @@ if errorlevel 9009 (
 	exit /b 1
 )
 
-%SPHINXBUILD% -M %1 %SOURCEDIR% %BUILDDIR% %SPHINXOPTS%
+%SPHINXBUILD% -M html %1 %SOURCEDIR% %BUILDDIR% %SPHINXOPTS%
 goto end
 
 :help
