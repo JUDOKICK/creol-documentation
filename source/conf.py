@@ -20,7 +20,7 @@ import sphinx_rtd_theme
 # -- Project information -----------------------------------------------------
 
 project = 'Creol'
-copyright = '2019, Creol Ltd'
+copyright = '2020, Creol Ltd'
 author = 'Joshua Bijak'
 
 
@@ -160,7 +160,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     (master_doc, 'Creol', 'Creol Documentation',
-     author, 'Creol', 'One line description of project.',
+     author, 'Creol', 'Creol Network Docs',
      'Miscellaneous'),
 ]
 
