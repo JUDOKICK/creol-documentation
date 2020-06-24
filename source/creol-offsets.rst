@@ -238,6 +238,11 @@ Containers
 Containers hold complete and complex structures of individual "Pages" within the site.
 The routing and authentication is handled by the App container and each View is responsible for displaying information correctly
 
+App
+^^^
+
+App Container containing the entirety of the creol dapp
+
 
 AccountView
 ^^^^^^^^^^^
@@ -384,19 +389,56 @@ FAQView
 
 FAQ View is meant to display a standalone FAQ page. It is now deprecated and not used. Will be removed from next build.
 
+LandingView
+^^^^^^^^^^^
+
+LoginView
+^^^^^^^^^
+
+This view is displayed to any user who wishes to log in and view their account. It is an interface to their web3 provider they chose.
+
+The only check that is made is whether or not the user has already been authenticated.
+
+NFTView
+^^^^^^^
+
+Module that is currently not used. It is meant to display particular NFT information as an explorer of CVCUs.
+
 HomeView
 ^^^^^^^^
 
-Working on it
+Old homepage. No longer used and is considered deprecated, will be removed in future release.
 
-JourneyView
+JourneyView (WIP)
+^^^^^^^^^^^^^^^^^
+
+The JourneyView is meant to display the user's carbon journey, although at this time it is a WIP
+
+PromoView
+^^^^^^^^^
+
+RoadmapView
 ^^^^^^^^^^^
 
-The JourneyView is meant to display
+Roadmap View is meant to display a standalone Roadmap page. It is now deprecated as the Roadmap is found within LandingView.
+Will be removed from the next build.
+
+SettingsView
+^^^^^^^^^^^^
+
+Template holder page for now. SettingsView is a WIP.
+
+SuccessView
+^^^^^^^^^^^
+
+The SuccessView is shown to users upon successful Stripe Checkout authorization and payment. It is a pure component with
+no props or conditions as is generally just a happy place to be with confetti.
+
 
 
 OfficeQuestionnaireView
 ^^^^^^^^^^^^^^^^^^^^^^^
+
 OfficeQuestionnaireView contains the React framework for the business calculator. The business calculator is broken into
 5 distinct sections (Employees, Energy and premises, Equipment, Travel, Goods). The fullpage library is used to
 split the calculator into the various question pages.
