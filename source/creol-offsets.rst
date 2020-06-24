@@ -212,12 +212,34 @@ This configuration loads the appropriate Smart Contract ABIs required for usage 
 web3 object should the user fail to login correctly.
 
 For more details see the `Drizzle Options Docs <https://www.trufflesuite.com/docs/drizzle/reference/drizzle-options>`_ on Truffle's documentation
+OfficeQuestionnaireView
+-----------------------
+OfficeQuestionnaireView contains the React framework for the business calculator. The business calculator is broken into
+5 distinct sections (Employees, Energy and premises, Equipment, Travel, Goods). The fullpage library is used to
+split the calculator into the various question pages.
+
+
+EmailSignup
+^^^^^^^^^^^
 
 Main
 ^^^^
 
 Simple configuration of the overall dApp name. Used for building the webpack. Is generally overwritten everywhere with appropriate meta-tags
 
+* TotalFootprint: The user's total footprint from the calculator, number
+* EmployeeFootprint: The footprint per employee, number
+* EnergyFootprint: The user's energy footprint, number
+* RecyclingPercentage: The user's percentage of waste recycled, number
+* GreenSupplierReduction: The user's footprint reduction factor from using a green supplier, number
+* LightingType: Footprint determined by type of lighting used, number
+* OfficeImprovements: The footprint reduction due to office improvements, number
+* TechPurchases: The footprint from the purchase of new equipment, number
+* DeviceReplacementRate: Footprint scale factor based on how frequently devices are replaced, number
+* MeatFreeDays: Reduction factor if the business has meat-free days, number
+* LocallySourced: Reduction factor for locally sourcing food, number
+* FoodWasted: Increase factor for wasting food, number
+* RegionID: Numerical representation of user's geographic location, number
 
 Stripe
 ^^^^^^
@@ -226,6 +248,8 @@ Stripe config contains the public stripe keys for authenticating the stripe sess
 the "Approved" domains section on stripe.com
 
 
+* QuestionNumber: The numerical position of the question in the questionnaire, number
+* RegionID: Numerical representation of user's geographic location, number
 Web3Modal
 ^^^^^^^^^
 
@@ -241,6 +265,7 @@ AccountView
 
 AccountGrid
 ~~~~~~~~~~~
+* InputLabel: The placeholder text for the input field, string
 
 AccountGrid is used to render the
 
@@ -248,6 +273,55 @@ ListHeader
 ~~~~~~~~~~
 
 ListHeader is used to render List Headers
+
+Parameters:
+
+* QuestionOptions: The array of options for the multiple choice and their associated footprints, array
+
+Returns
+The multiple choice question component
+
+Selection
+^^^^^^^^^
+
+Parameters:
+
+* SelectOptions: The array of options for the dropdown menu and their associated footprint, array
+* DefaultValue: Placeholder selected value, string
+* DefaultBool: Boolean to determine whether the component should be full width or not (Used in Counter and Select), boolean
+
+Returns
+A dropdown selection component
+
+Counter
+^^^^^^^
+
+Parameters:
+
+* CounterOptions: The array of options for the counter buttons and their associated footprint, array
+* SelectOptions: The array of options for the dropdown menu and their associated footprint (Optional - used in Counter and Select), array
+
+Returns
+The array of counter components and (optional) an adjacent selection dropdown component for each counter
+
+Checkbox
+^^^^^^^^
+
+Parameters:
+* CheckboxOptions: The array of options for the checkbox component and their associated footprint, array
+
+Returns:
+A set of toggleable checkbox options
+
+Multiple Number Input
+^^^^^^^^^^^^^^^^^^^^^
+
+Parameters:
+* InputData: The array of options for the various number inputs including name, description and associated footprint, array
+
+Returns
+An array of number input options - each displaying an image, input field and a description
+
 
 QuestionnaireView
 -----------------
@@ -280,7 +354,70 @@ And four supplementary components:
 
 Question
 ^^^^^^^^
+Parameters:
+* QuestionNumber: The numerical position of the question in the questionnaire, number
+* RegionID: Numerical representation of user's geographic location, number
 
+Returns:
+The multiple choice question component
+
+FlightCounter
+^^^^^^^^^^^^^
+Parameters:
+* QuestionNumber: The numerical position of the question in the questionnaire, number
+* RegionID: Numerical representation of user's geographic location, number
+
+Behaviour:
+The JSON data is parsed to separate the question, options and related footprints. Each counter is tied to its own
+separate state which is incremented on the press of the '+' or '-' button. This updates the total footprint based on the
+associated value of that counter.
+
+Returns:
+An array of counter buttons relating to the different flight options
+
+AccommodationSelect
+^^^^^^^^^^^^^^^^^^^
+Parameters:
+* QuestionNumber: The numerical position of the question in the questionnaire, number
+* RegionID: Numerical representation of user's geographic location, number
+
+Behaviour:
+The JSON data is parsed to separate the question, options and related footprints. Populates the question with the three
+select components - each option having an associated footprint tied to it. Upon change of one of the select options,
+the question footprint is recalculated and passed up to the parent component.
+
+Returns:
+The accommodation question and three select dropdowns relating to the three elements of the accommodation calculation
+
+Checkbox
+^^^^^^^^
+Parameters:
+* QuestionNumber: The numerical position of the question in the questionnaire, number
+* RegionID: Numerical representation of user's geographic location, number
+
+Behaviour:
+Each checkbox option has an associated footprint - the toggled options are all added together, this question footprint
+is then passed up to the parent component
+
+Returns:
+A set of toggleable checkbox options
+
+EmailSignup
+^^^^^^^^^^^
+Parameters:
+* TotalFootprint: The user's total footprint from the calculator, number
+* CarFootprint: The user's footprint from the Car question, number
+* MotorcycleFootprint: The user's footprint from the Motorcycle question, number
+* BusFootprint: The user's footprint from the Bus question, number
+* TrainFootprint: The user's footprint from the Train question, number
+* FlightFootprint: The user's footprint from the Flight question, number
+* HomeFootprint: The user's footprint from the Home question, number
+* HomeImprovements: The user's footprint from the Home Improvements question, number
+* FoodFootprint: The user's footprint from the Food question, number
+* RestaurantFootprint: The user's footprint from the Restaurant question, number
+* HotelFootprint: The user's footprint from the Hotel question, number
+* FashionFootprint: The user's footprint from the Fashion question, number
+* AccessoryFootprint: The user's footprint from the Accessory question, number
 
 
 
