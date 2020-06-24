@@ -212,34 +212,12 @@ This configuration loads the appropriate Smart Contract ABIs required for usage 
 web3 object should the user fail to login correctly.
 
 For more details see the `Drizzle Options Docs <https://www.trufflesuite.com/docs/drizzle/reference/drizzle-options>`_ on Truffle's documentation
-OfficeQuestionnaireView
------------------------
-OfficeQuestionnaireView contains the React framework for the business calculator. The business calculator is broken into
-5 distinct sections (Employees, Energy and premises, Equipment, Travel, Goods). The fullpage library is used to
-split the calculator into the various question pages.
-
-
-EmailSignup
-^^^^^^^^^^^
 
 Main
 ^^^^
 
 Simple configuration of the overall dApp name. Used for building the webpack. Is generally overwritten everywhere with appropriate meta-tags
 
-* TotalFootprint: The user's total footprint from the calculator, number
-* EmployeeFootprint: The footprint per employee, number
-* EnergyFootprint: The user's energy footprint, number
-* RecyclingPercentage: The user's percentage of waste recycled, number
-* GreenSupplierReduction: The user's footprint reduction factor from using a green supplier, number
-* LightingType: Footprint determined by type of lighting used, number
-* OfficeImprovements: The footprint reduction due to office improvements, number
-* TechPurchases: The footprint from the purchase of new equipment, number
-* DeviceReplacementRate: Footprint scale factor based on how frequently devices are replaced, number
-* MeatFreeDays: Reduction factor if the business has meat-free days, number
-* LocallySourced: Reduction factor for locally sourcing food, number
-* FoodWasted: Increase factor for wasting food, number
-* RegionID: Numerical representation of user's geographic location, number
 
 Stripe
 ^^^^^^
@@ -248,8 +226,6 @@ Stripe config contains the public stripe keys for authenticating the stripe sess
 the "Approved" domains section on stripe.com
 
 
-* QuestionNumber: The numerical position of the question in the questionnaire, number
-* RegionID: Numerical representation of user's geographic location, number
 Web3Modal
 ^^^^^^^^^
 
@@ -265,7 +241,7 @@ AccountView
 
 AccountGrid
 ~~~~~~~~~~~
-* InputLabel: The placeholder text for the input field, string
+
 
 AccountGrid is used to render the
 
@@ -280,6 +256,78 @@ Parameters:
 
 Returns
 The multiple choice question component
+
+OfficeQuestionnaireView
+-----------------------
+OfficeQuestionnaireView contains the React framework for the business calculator. The business calculator is broken into
+5 distinct sections (Employees, Energy and premises, Equipment, Travel, Goods). The fullpage library is used to
+split the calculator into the various question pages.
+
+
+EmailSignup
+^^^^^^^^^^^
+A number of calculated results from the parent component are required to populate the email with the user's results.
+This includes:
+
+Parameters:
+
+* TotalFootprint: The user's total footprint from the calculator, number
+* EmployeeFootprint: The footprint per employee, number
+* EnergyFootprint: The user's energy footprint, number
+* RecyclingPercentage: The user's percentage of waste recycled, number
+* GreenSupplierReduction: The user's footprint reduction factor from using a green supplier, number
+* LightingType: Footprint determined by type of lighting used, number
+* OfficeImprovements: The footprint reduction due to office improvements, number
+* TechPurchases: The footprint from the purchase of new equipment, number
+* DeviceReplacementRate: Footprint scale factor based on how frequently devices are replaced, number
+* MeatFreeDays: Reduction factor if the business has meat-free days, number
+* LocallySourced: Reduction factor for locally sourcing food, number
+* FoodWasted: Increase factor for wasting food, number
+* RegionID: Numerical representation of user's geographic location, number
+
+Returns
+A text field which only accepts a valid email. Upon the user submitting an email, a Zapier link is triggered, sending an email with the user's personalised results.
+
+QuestionContainer
+^^^^^^^^^^^^^^^^^
+
+Parameters:
+
+* QuestionNumber: The numerical position of the question in the questionnaire
+* RegionID: Numerical representation of user's geographic location
+
+Behaviour
+The QuestionContainer component parses OfficeQuestionnaireData to determine the appropriate component, options and
+associated footprint for every question.
+There are currently nine distinct component types:
+
+* Number Input
+* Question
+* Selection
+* Counter
+* Checkbox
+* Multiple Number Input
+* Counter and Select
+* Multiple Inputs
+* Info
+
+Returns
+The question title and the relevant component
+
+NumberInput
+^^^^^^^^^^^
+
+Provides an input field for users to input exact numerical answers to questions
+Parameters:
+
+* InputLabel: The placeholder text for the input field
+
+Behaviour
+Checks if the input is a number - only passes the state up if it meets this criteria
+
+Returns
+The number input field
+
 
 Selection
 ^^^^^^^^^
@@ -312,6 +360,7 @@ Parameters:
 
 Returns:
 A set of toggleable checkbox options
+
 
 Multiple Number Input
 ^^^^^^^^^^^^^^^^^^^^^
@@ -404,6 +453,7 @@ A set of toggleable checkbox options
 
 EmailSignup
 ^^^^^^^^^^^
+
 Parameters:
 * TotalFootprint: The user's total footprint from the calculator, number
 * CarFootprint: The user's footprint from the Car question, number
