@@ -42,7 +42,7 @@ Contents
 :ref:`Keyword Index <genindex>`, :ref:`Search Page <search>`
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 6
    :caption: Contents:
 
    introduction-to-creol-system.rst

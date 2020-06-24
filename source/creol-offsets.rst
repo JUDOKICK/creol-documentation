@@ -235,37 +235,175 @@ Web3Modal, config options for choosing and rendering which web3 provider for use
 Containers
 ----------
 
+Containers hold complete and complex structures of individual "Pages" within the site.
+The routing and authentication is handled by the App container and each View is responsible for displaying information correctly
+
+
 AccountView
 ^^^^^^^^^^^
+
+The AccountView section shows the user's account based on parameters provided by the Web3 object.
+
+There's a few behaviours that need to be documented within the lifecycle hooks.
+
+``componentDidMount`` The logic found with this hook is designed to create the drizzle subscription method to the smart contract
+and then query the subscription contract to see if the particular user is subscribed to any given subscription.
+
+Functions:
+
+``formatSubscriptionData(subData)``
+This function takes a JSON object from the SubscriptionData folder and formats/parses it for use within this component
+
+Parameters:
+
+``subData`` : Raw JSON Object full of subscription data.
+
+Returns:
+
+``subArray`` : Array containing JSON subscription data for use within the component.
+
+``getButtonText(subscription, isSubscribed, subscriptionTier)``
+This function returns the text required for the based on the subscription parameters from the given account
+
+Parameters:
+
+``subscription``  : Object containing subscription information
+``isSubscribed`` : Bool true or false on whether or not the subscriber has an active subscription
+``subscriptionTier`` : Which particular tier the user is subscribed to.
+
+Returns:
+
+``string`` String containing the button text.
+
+Props:
+
+``stripe`` : Stripe object that gets passed in for use for charging for new subscription choices.
 
 
 AccountGrid
 ~~~~~~~~~~~
 
-
-AccountGrid is used to render the
-
-ListHeader
-~~~~~~~~~~
-
-ListHeader is used to render List Headers
+AccountGrid is used to render the top grid in the AccountView section.
 
 Parameters:
 
-* QuestionOptions: The array of options for the multiple choice and their associated footprints, array
+``address`` : Ethereum address to render
+``headerText`` : Header text to render
 
-Returns
-The multiple choice question component
+Returns:
+Returns an AccountGrid component for display
+
+
+CarbonView
+^^^^^^^^^^
+
+The CarbonView component is used to render the user's accumulated Carbon offsets on the /carbon page. It collects the
+NFTs in the associated address and displays and renders them accordingly.
+
+Functions:
+
+``componentDidMount`` : Within this hook, the page collects the users NFTs to display.
+
+``componentWillUpdate`` : This hook checks to see if the NFTs are finished being collected and then triggers the render
+function
+
+``fetchUserNFTs(address, drizzle)`` : Requires the users address and a valid Drizzle object to lookup contracts from. Loads and verifies NFTs belonging to this address provided
+
+``constructNFTCards(NFTs)`` : takes in a valid NFT object containing the NFT data to render and renders the NFTCards for each set of NFTs
+
+``calculateUserProjectsAndSupply(NFTs)`` : Quickly determines the number of NFTs in a given project a User has.
+
+``checkScopeNumber`` : Globally available function for determining the Icon to use for a given scope number according to VERRA VCU types.
+
+EmptyAccount
+~~~~~~~~~~~~
+
+The EmptyAccount component renders when a user does not have any NFTs within their account to display and displays the option
+to either subscribe or purchase one off offsets.
+
+It is a pure component and does not have any parameters.
+
+LoadingBox
+~~~~~~~~~~
+
+The LoadingBox component is displayed when the NFTs are being calculated for the user.
+
+It is a pure component and does not have any parameters.
+
+CheckoutView
+^^^^^^^^^^^^
+
+CheckoutView is displayed to the user when a user bwishes to checkout a subscription or a set of one off offsets.
+
+It has a default props for the plan and address set to known Creol Addresses so we can revert them if the need arises.
+
+Props:
+``stripe`` : Stripe object for redirecting to Checkout module
+``drizzleState``: DrizzleState object that holds address information from the Web3 object
+``isAuthenticated``: Boolean that decides whether or not a user is authenticated (web3 provider chosen in this context)
+
+
+HorizontalStepper
+~~~~~~~~~~~~~~~~~
+
+The HorizontalStepper module guides new users through the checkout process and displays the appropriate step and specific stages.
+
+Which step to render is determined by the internal step state of the component.
+
+Props:
+``stripe`` : Stripe object for redirecting to Checkout module
+``drizzleState``: DrizzleState object that holds address information from the Web3 object
+``isAuthenticated``: Boolean that decides whether or not a user is authenticated (web3 provider chosen in this context)
+``plan``: Which Stripe Code to charge for (Subscription Code)
+
+
+AccountStep
+```````````
+
+AccountStep prompts the user to create an "account" which is worded and displayed as such but what it really is the creation of a wallet.
+Users are given the choice to use an internally detected provider like Metamask or choose from Torus, Fortmatic or Portis
+
+PayStep
+```````
+
+PayStep prompts the user with a Pay Now button after they have created an account.
+
+Props:
+``stripe`` : Stripe object for redirecting to Checkout module
+``drizzleState``: DrizzleState object that holds address information from the Web3 object
+``isAuthenticated``: Boolean that decides whether or not a user is authenticated (web3 provider chosen in this context)
+``plan``: Which Stripe Code to charge for (Subscription Code)
+
+SuccessStep
+```````````
+
+This step is actually never shown to the user but is included in the event that the Stripe redirect fails.
+
+FAQView
+^^^^^^^
+
+FAQ View is meant to display a standalone FAQ page. It is now deprecated and not used. Will be removed from next build.
+
+HomeView
+^^^^^^^^
+
+Working on it
+
+JourneyView
+^^^^^^^^^^^
+
+The JourneyView is meant to display
+
 
 OfficeQuestionnaireView
------------------------
+^^^^^^^^^^^^^^^^^^^^^^^
 OfficeQuestionnaireView contains the React framework for the business calculator. The business calculator is broken into
 5 distinct sections (Employees, Energy and premises, Equipment, Travel, Goods). The fullpage library is used to
 split the calculator into the various question pages.
 
 
 EmailSignup
-^^^^^^^^^^^
+~~~~~~~~~~~
 A number of calculated results from the parent component are required to populate the email with the user's results.
 This includes:
 
@@ -289,7 +427,15 @@ Returns
 A text field which only accepts a valid email. Upon the user submitting an email, a Zapier link is triggered, sending an email with the user's personalised results.
 
 QuestionContainer
-^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~
+
+// TODO: FIND WHERE THIS GOES
+Parameters:
+
+* QuestionOptions: The array of options for the multiple choice and their associated footprints, array
+
+Returns
+The multiple choice question component
 
 Parameters:
 
@@ -315,7 +461,7 @@ Returns
 The question title and the relevant component
 
 NumberInput
-^^^^^^^^^^^
+~~~~~~~~~~~
 
 Provides an input field for users to input exact numerical answers to questions
 Parameters:
@@ -330,7 +476,7 @@ The number input field
 
 
 Selection
-^^^^^^^^^
+~~~~~~~~~
 
 Parameters:
 
@@ -342,7 +488,7 @@ Returns
 A dropdown selection component
 
 Counter
-^^^^^^^
+~~~~~~~
 
 Parameters:
 
@@ -353,7 +499,7 @@ Returns
 The array of counter components and (optional) an adjacent selection dropdown component for each counter
 
 Checkbox
-^^^^^^^^
+~~~~~~~~
 
 Parameters:
 * CheckboxOptions: The array of options for the checkbox component and their associated footprint, array
@@ -363,7 +509,7 @@ A set of toggleable checkbox options
 
 
 Multiple Number Input
-^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~
 
 Parameters:
 * InputData: The array of options for the various number inputs including name, description and associated footprint, array
@@ -373,7 +519,7 @@ An array of number input options - each displaying an image, input field and a d
 
 
 QuestionnaireView
------------------
+^^^^^^^^^^^^^^^^^
 
 QuestionnaireView contains the React framework behind the individual carbon footprint calculator. The individual
 calculator is broken into four different sections (Transport, Energy, Food, Extras). The fullpage library is used to
@@ -402,7 +548,7 @@ And four supplementary components:
 
 
 Question
-^^^^^^^^
+~~~~~~~~
 Parameters:
 * QuestionNumber: The numerical position of the question in the questionnaire, number
 * RegionID: Numerical representation of user's geographic location, number
@@ -411,7 +557,7 @@ Returns:
 The multiple choice question component
 
 FlightCounter
-^^^^^^^^^^^^^
+~~~~~~~~~~~~~
 Parameters:
 * QuestionNumber: The numerical position of the question in the questionnaire, number
 * RegionID: Numerical representation of user's geographic location, number
@@ -425,7 +571,7 @@ Returns:
 An array of counter buttons relating to the different flight options
 
 AccommodationSelect
-^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~
 Parameters:
 * QuestionNumber: The numerical position of the question in the questionnaire, number
 * RegionID: Numerical representation of user's geographic location, number
@@ -439,7 +585,7 @@ Returns:
 The accommodation question and three select dropdowns relating to the three elements of the accommodation calculation
 
 Checkbox
-^^^^^^^^
+~~~~~~~~
 Parameters:
 * QuestionNumber: The numerical position of the question in the questionnaire, number
 * RegionID: Numerical representation of user's geographic location, number
@@ -452,7 +598,7 @@ Returns:
 A set of toggleable checkbox options
 
 EmailSignup
-^^^^^^^^^^^
+~~~~~~~~~~~
 
 Parameters:
 * TotalFootprint: The user's total footprint from the calculator, number
@@ -472,9 +618,9 @@ Parameters:
 
 
 Core
-====
+----
 -
 
 Data
-====
+----
 -
