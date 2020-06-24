@@ -44,25 +44,6 @@ but simplified even further to abstract some complexity around the calculation a
 App Components
 ==============
 
-Configs
--------
-
-Theme
-^^^^^
-
-Drizzle
-^^^^^^^
-
-Main
-^^^^
-
-Stripe
-^^^^^^
-
-Web3Modal
-^^^^^^^^^
-
-
 Components
 ----------
 
@@ -203,9 +184,52 @@ Parameters:
 
 * ``subscription`` : Code to render for that particular subscription
 
+Configs
+-------
+
+Below are the configuration settings for the Creol React dApp. They follow various categories.
+
+* Theme: settings pertaining to the Material UI theme.
+* Drizzle: Drizzle settings for smart contract interaction
+* Main: Main app settings
+* Stripe: Stripe settings for the API lookup to Creol's product codes
+* Web3Modal: Config for the web3 Modal object
 
 
+Theme
+^^^^^
 
+Two files, styles and theme are responsible for governing the styles choices.
+
+Styles: The coloring within the system is governed here with CSS hex values.
+
+Theme: This file builds a Mui Theme and applies styles for general use globally from the style sheet.
+
+Drizzle
+^^^^^^^
+
+This configuration loads the appropriate Smart Contract ABIs required for usage in the Creol system. Also contains configurations for a fallback
+web3 object should the user fail to login correctly.
+
+For more details see the `Drizzle Options Docs <https://www.trufflesuite.com/docs/drizzle/reference/drizzle-options>`_ on Truffle's documentation
+
+Main
+^^^^
+
+Simple configuration of the overall dApp name. Used for building the webpack. Is generally overwritten everywhere with appropriate meta-tags
+
+
+Stripe
+^^^^^^
+
+Stripe config contains the public stripe keys for authenticating the stripe session. The actual key signing and verification is handled by Stripe on
+the "Approved" domains section on stripe.com
+
+
+Web3Modal
+^^^^^^^^^
+
+Web3Modal, config options for choosing and rendering which web3 provider for users to choose from.
 
 
 Containers
@@ -214,135 +238,16 @@ Containers
 AccountView
 ^^^^^^^^^^^
 
+
 AccountGrid
-"""""""""""
+~~~~~~~~~~~
+
+AccountGrid is used to render the
 
 ListHeader
-""""""""""
+~~~~~~~~~~
 
-Containers
--Different views
-*
-
-EmailSignup
-^^^^^^^^^^^
-
-Parameters
-
-A number of calculated results from the parent component are required to populate the email with the user's results.
-This includes:
-
-* TotalFootprint: The user's total footprint from the calculator
-* EmployeeFootprint: The footprint per employee
-* EnergyFootprint: The user's energy footprint
-* RecyclingPercentage: The user's percentage of waste recycled
-* GreenSupplierReduction: The user's footprint reduction factor from using a green supplier
-* LightingType: Footprint determined by type of lighting used
-* OfficeImprovements: The footprint reduction due to office improvements
-* TechPurchases: The footprint from the purchase of new equipment
-* DeviceReplacementRate: Footprint scale factor based on how frequently devices are replaced
-* MeatFreeDays: Reduction factor if the business has meat-free days
-* LocallySourced: Reduction factor for locally sourcing food
-* FoodWasted: Increase factor for wasting food
-* RegionID: Numerical representation of user's geographic location
-
-Returns
-A text field which only accepts a valid email. Upon the user submitting an email, a Zapier link is triggered, sending an email with the user's personalised results.
-
-QuestionContainer
-^^^^^^^^^^^^^^^^^
-
-Parameters:
-
-* QuestionNumber: The numerical position of the question in the questionnaire
-* RegionID: Numerical representation of user's geographic location
-
-Behaviour
-The QuestionContainer component parses OfficeQuestionnaireData to determine the appropriate component, options and
-associated footprint for every question.
-There are currently nine distinct component types:
-
-* Number Input
-* Question
-* Selection
-* Counter
-* Checkbox
-* Multiple Number Input
-* Counter and Select
-* Multiple Inputs
-* Info
-
-Returns
-The question title and the relevant component
-
-NumberInput
-^^^^^^^^^^^
-
-Provides an input field for users to input exact numerical answers to questions
-Parameters:
-
-* InputLabel: The placeholder text for the input field
-
-Behaviour
-Checks if the input is a number - only passes the state up if it meets this criteria
-
-Returns
-The number input field
-
-Question
-^^^^^^^^
-
-Parameters:
-
-* QuestionOptions: The array of options for the multiple choice and their associated footprints
-
-Returns
-The multiple choice question component
-
-Selection
-^^^^^^^^^
-
-Parameters:
-
-* SelectOptions: The array of options for the dropdown menu and their associated footprint
-* DefaultValue: Placeholder selected value
-* DefaultBool: Boolean to determine whether the component should be full width or not (Used in Counter and Select)
-
-Returns
-A dropdown selection component
-
-Counter
-^^^^^^^
-
-Parameters:
-
-* CounterOptions: The array of options for the counter buttons and their associated footprint
-* SelectOptions: The array of options for the dropdown menu and their associated footprint (Optional - used in Counter and Select)
-
-Returns
-The array of counter components and (optional) an adjacent selection dropdown component for each counter
-
-Checkbox
-^^^^^^^^
-
-Parameters:
-
-* CheckboxOptions: The array of options for the checkbox component and their associated footprint
-
-Returns:
-
-A set of toggleable checkbox options
-
-Multiple Number Input
-^^^^^^^^^^^^^^^^^^^^^
-
-Parameters:
-
-* InputData: The array of options for the various number inputs including name, description and associated footprint
-
-Returns
-An array of number input options - each displaying an image, input field and a description
-
+ListHeader is used to render List Headers
 
 QuestionnaireView
 -----------------
@@ -369,6 +274,9 @@ And four supplementary components:
 * DialogContent
 * Progress
 * RegionSelection
+
+
+
 
 Question
 ^^^^^^^^
