@@ -1274,12 +1274,48 @@ Core
 
 Data
 ====
+
+BenefitsData
+------------
+This data is used to populate the 'Benefits' section in LandingView. The data is structured to make the parsing of this
+data easier. The hierarchy for this data goes as follows:
+* 1st level - Benefits
+* 2nd level - Benefit number (e.g. 1, 2, 3, etc.)
+* 3rd level - Benefit data (panelHeading, panelDetails)
+* 3rd level (Heading) - Contains a string which dictates the heading of a given benefit panel
+* 3rd level (Details) - Contains a string which controls the given benefit panel's description
+
+
+FAQData
+------------
+This data is used to populate the 'FAQ' section in LandingView. The data is structured to make the parsing of this
+data easier. The hierarchy for this data goes as follows:
+* 1st level - FAQs
+* 2nd level - FAQ number (e.g. 1, 2, 3, etc.)
+* 3rd level - FAQ data (panelHeading, panelDetails)
+* 3rd level (Heading) - Contains a string which dictates the heading of a given FAQ panel
+* 3rd level (Details) - Contains a string which controls the given FAQ panel's description
+
+
+NFTInfo
+-------
+This data is used to populate the example NFT. The data is structured to make the parsing of this
+data easier. The hierarchy for this data goes as follows:
+* 1st level - projects
+* 2nd level - 868
+* 3rd level (title) - Contains a string controlling the title of the NFT
+* 3rd level (summaryText) - Contains a string summarising the NFT description
+* 3rd level (expandedText) - Contains a string with the full NFT description
+* 3rd level (imgPath) - Contains a string with a path to the appropriate image for this NFT
+* 3rd level (imgAlt) - Contains a string with a short description of the image
+* 3rd level (vcsLink) - Contains a string with a link to the associated project
+
 OfficeQuestionnaireData
 -----------------------
 This data is used to populate the business questionnaire with questions, components and associated footprints. The data
 is structured to make the parsing of this data easier. The general hierarchy for this data goes as follows:
 * 1st level - Questions
-* 2nd level - Question number (e.g. 1,2,3,etc.)
+* 2nd level - Question number (e.g. 1, 2, 3, etc.)
 * 3rd level - Question data (Question, Regional Options, Component, Category)
 * 4th level (Question) - Contains a string of the question (e.g. "How many employees would you like to offset?")
 * 4th level (Options) - This section contains the option name and the associated value of that option for each
@@ -1348,12 +1384,54 @@ https://mapmyemissions.com/home
 https://www.icao.int/environmental-protection/Carbonoffset/Pages/default.aspx
 
 
-QuestionnaireView
+BusinessOneOffData
+------------------
+This data is used to populate the business side of the one-off purchases panel. The hierarchy of this data goes as follows:
+* 1st level - Region (UK, EU, US, World)
+* 2nd level - Card number (e.g. 1, 2, 3, etc.)
+* 3rd level - This section contains the card data which is detailed in two parts:
+* 3rd level(1) - The first piece of data at this level specifies a string to be used as the card title
+* 3rd level(2) - The second piece of data at this level is an array made up of 3 pieces of data:
+1) Option Name (string)
+2) Option footprint (number)
+3) Required component (number) - the component is specified by an index (0: Counter, 1: Number Input, 2: Info message. See QuestionnaireView component for more info)
+4) Input field label (string)
+Structure: CardTitle, [Option Name, Option Footprint, Required Component, Input field label (Optional)]
+.. note:: The input field label only needs to be included when the required component is a 'Number Input' (Required Component = 1)
+
+
+OneOffData
+----------
+This data is used to populate the individual side of the one-off purchases panel. The hierarchy of this data goes as follows:
+* 1st level - Region (UK, EU, US, World)
+* 2nd level - Card number (e.g. 1, 2, 3, etc.)
+* 3rd level - This section contains the card data which is detailed in two parts:
+* 3rd level(1) - The first piece of data at this level specifies a string to be used as the card title
+* 3rd level(2) - The second piece of data at this level is an array made up of 4 pieces of data:
+1) Option Name (string)
+2) Option footprint (number)
+3) Required component (number) - the component is specified by an index (0: Counter, 1: Number Input, 2: Info message. See QuestionnaireView component for more info)
+4) Input field label (string)
+Structure: CardTitle, [Option Name, Option Footprint, Required Component, Input field label (Optional)]
+.. note:: The input field label only needs to be included when the required component is a 'Number Input' (Required Component = 1)
+
+
+ProjectData
+-----------
+This data is used to populate the 'Projects' section in the LandingView. The hierarchy for this data goes as follows:
+* 1st level - Projects
+* 2nd level - Project number (e.g. 1, 2, 3, etc.)
+* 3rd level (Title) - Contains a string specifying the project title
+* 3rd level (Subtitle) - Contains a string specifying the project subtitle
+* 3rd level (Description) - Contains a string specifying the project description
+
+
+QuestionnaireData
 -----------------
 This data is used to populate the individual questionnaire with questions, and associated footprints. The data
 is structured to make the parsing of this data easier. The general hierarchy for this data goes as follows:
 * 1st level - Questions
-* 2nd level - Question number (e.g. 1,2,3,etc.)
+* 2nd level - Question number (e.g. 1, 2, 3, etc.)
 * 3rd level - Question data (Question, Options)
 * 4th level (Question) - Contains a string of the question (e.g. "How many employees would you like to offset?")
 * 4th level (Options) - This section contains the option name and the associated value of that option for each
@@ -1382,3 +1460,43 @@ https://blogs.ei.columbia.edu/2012/09/04/how-green-is-local-food/
 ``Extras``
 https://theconversation.com/how-smartphones-are-heating-up-the-planet-92793
 
+
+RoadmapData
+-----------
+This data is used to populate the 'Roadmap' section in LandingView. The data is structured to make the parsing of this
+data easier. The hierarchy for this data goes as follows:
+* 1st level - Roadmap
+* 2nd level - Slide number (e.g. 1, 2, 3, etc.)
+* 3rd level - Slide data (panelHeading, panelDetails)
+* 3rd level (Heading) - Contains a string which dictates the heading of a given roadmap panel
+* 3rd level (Details) - Contains a string which controls the given roadmap panel's description
+
+
+SubscriptionData
+----------------
+This data is used to handle the subscription panel component. The data is structured to make the parsing of this
+data easier. The hierarchy for this data goes as follows:
+* 1st level - subscriptions
+* 2nd level - Subscription Tier (Eco Burner, Eco Warrior, Eco Saviour)
+* 3rd level - FAQ data (panelHeading, panelDetails)
+* 3rd level (name) - String specifying name of a chosen subscription
+* 3rd level (image) - String containing path to image for a chosen subscription
+* 3rd level (imageAlt) - String description of the image
+* 3rd level (subscriptionText) - String specifying benefits of subscribing
+* 3rd level (subscriptionSubText) - String with stating price equivalence
+* 3rd level (subPrice) - String price of a chosen subscription in GBP
+* 3rd level (subPriceEU) - String price of a chosen subscription in €
+* 3rd level (subPricePromo) - String price of a chosen subscription at promo cost in GBP
+* 3rd level (subPricePromoEU) - String price of a chosen subscription at promo cost in €
+* 3rd level (stripeCode) - String product ID for standard subscription in GBP
+* 3rd level (stripeCodeEU) - String product ID for standard subscription in €
+* 3rd level (stripeCodePromo) - String product ID for promo subscription in GBP
+* 3rd level (stripeCodePromoEU) - String product ID for promo subscription in €
+* 3rd level (stripeTestCode) - String productID for testing
+* 3rd level (stripeTrialCode) - String productID for free trial
+* 3rd level (stripeTrialCodeEU) - String productID for free trial
+* 3rd level (stripeTaxCodeVAT) - String productID for VAT
+* 3rd level (stripeCouponCode) - String productID for coupon discount
+* 3rd level (tierID) - String of number indicating subscription tier
+* 3rd level (treesEquivalent) - String of tree equivalence for a chosen subscription
+* 3rd level (carMilesEquivalent) - String of car miles equivalence for a chosen subscription
