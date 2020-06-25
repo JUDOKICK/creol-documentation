@@ -1274,4 +1274,111 @@ Core
 
 Data
 ====
--
+OfficeQuestionnaireData
+-----------------------
+This data is used to populate the business questionnaire with questions, components and associated footprints. The data
+is structured to make the parsing of this data easier. The general hierarchy for this data goes as follows:
+* 1st level - Questions
+* 2nd level - Question number (e.g. 1,2,3,etc.)
+* 3rd level - Question data (Question, Regional Options, Component, Category)
+* 4th level (Question) - Contains a string of the question (e.g. "How many employees would you like to offset?")
+* 4th level (Options) - This section contains the option name and the associated value of that option for each
+individual region. The structure changes depending on the chosen component - the behaviour of the options section is
+detailed below
+* 4th level (Component) - Contains a string specifying the component to use for this question
+* 4th level (Category) - Contains a string specifying the category that question belongs to
+
+Options
+The options section is first separated into the four different regions (UKOptions, EUOptions, USOptions and
+WorldOptions). Different regions are required since the associated values of some of the options may be different in
+different countries.
+Within these region options, the data is structured to suit the chosen component:
+``Question`` This component returns a multiple choice question - as such, the data is formatted so one parent array
+contains arrays of each individual option
+[["Option 1 name" (string), Option 1 value (number)], ["Option 2 name" (string), Option 2 value (number)]...]
+``Select`` This component returns a dropdown choice with multiple options. The data is structured exactly the same way
+as the 'Question' component
+[["Option 1 name" (string), Option 1 value (number)], ["Option 2 name" (string), Option 2 value (number)]...]
+``Checkbox`` This component returns a checkbox with multiple options. The data is structured exactly the same way
+as the 'Question' component
+[["Option 1 name" (string), Option 1 value (number)], ["Option 2 name" (string), Option 2 value (number)]...]
+``Counter`` This component returns multiple 'counter' components which allow a value to be incremented (See counter
+component). The data is structured exactly the same way as the 'Question' component
+[["Option 1 name" (string), Option 1 value (number)], ["Option 2 name" (string), Option 2 value (number)]...]
+``Number Input`` This component returns a field allowing for a numerical input. The data is structured exactly the same way
+as the 'Question' component, however only requires one option to populate the component.
+[["Option 1 name" (string), Option 1 value (number)]]
+``Counter and Select`` This component combines the 'counter' and 'select' components. The data is structured so that
+within each region, there are full options provided for both the Counter and the Select component, the data for both
+these subcomponents is structured the same way as the 'Question' component
+"Counter":[["Option 1 name" (string), Option 1 value (number)], ["Option 2 name" (string), Option 2 value (number)]...]
+"Select":[["Option 1 name" (string), Option 1 value (number)], ["Option 2 name" (string), Option 2 value (number)]...]
+``Multiple Number Input`` This component returns a number of the 'Number Input' component. The data is structured
+exactly the same way as the 'Number Input' component, however, a parent array contains the arrays of all the 'Number
+Input' children
+[["Number Input 1"], ["Number Input 2"], ["Number Input 3"]]
+``Multiple Inputs`` This component returns two 'Number Input' components providing different options, so that the user
+can choose which they want to fill out. Within the region, two sets of data are required for the two 'Number Input'
+components. This data is structured exactly the same way as the 'Number Input' component
+"Input1": [["Option 1 name" (string), Option 1 value (number)]]
+"Input2": [["Option 2 name" (string), Option 2 value (number)]]
+``Info`` This component is purely used to display a block of text to the user, as such, there is no data given for any
+of the regions
+[]
+
+Data
+.. note:: The data used in this calculator has been sourced from the most appropriate and up-to date sources available at the
+time of building the calculator. However, given the complexities of carbon footprint calculation and the necessary
+simplification for the purposes of this questionnaire, the calculated result may not be fully representative. However,
+through improvement of data capture methods, we hope to improve the calculator further.
+
+The sources used for the various sections can be found here:
+``Employees``
+https://climatesmartbusiness.com/wp-content/uploads/2013/05/CS-IND-BRIEF-OFFICES-FINAL-DIGITAL.pdf
+``Energy, Premises and Recycling``
+https://www.ledonecorp.com/using-led-lighting-to-reduce-your-carbon-footprint/#:~:text=Lighting%20alone%20creates%2017%25%20of,162%20coal%2Dfired%20power%20plants!
+https://ie.unc.edu/files/2016/03/green_public_housing_presentation.pdf
+http://publications.lib.chalmers.se/records/fulltext/136412.pdf
+``Equipment``
+https://www.researchgate.net/publication/267414572_A_Carbon_Footprint_of_an_Office_Building
+http://www.arcom.ac.uk/-docs/proceedings/ar2002-129-136_Aye_et_al.pdf
+``Travel``
+https://www.carbonfootprint.com/calculator.aspx
+https://mapmyemissions.com/home
+https://www.icao.int/environmental-protection/Carbonoffset/Pages/default.aspx
+
+
+QuestionnaireView
+-----------------
+This data is used to populate the individual questionnaire with questions, and associated footprints. The data
+is structured to make the parsing of this data easier. The general hierarchy for this data goes as follows:
+* 1st level - Questions
+* 2nd level - Question number (e.g. 1,2,3,etc.)
+* 3rd level - Question data (Question, Options)
+* 4th level (Question) - Contains a string of the question (e.g. "How many employees would you like to offset?")
+* 4th level (Options) - This section contains the option name and the associated value of that option for each
+individual region. The structure of this data stays consistent for every question:
+[["Option 1 name" (string), Option 1 value (number)], ["Option 2 name" (string), Option 2 value (number)]...]
+
+.. note::The options section is first separated into the four different regions (UKOptions, EUOptions, USOptions and
+WorldOptions). Different regions are required since the associated values of some of the options may be different in
+different countries.
+
+Data
+.. note:: The data used in this calculator has been sourced from the most appropriate and up-to date sources available at the
+time of building the calculator. However, given the complexities of carbon footprint calculation and the necessary
+simplification for the purposes of this questionnaire, the calculated result may not be fully representative. However,
+through improvement of data capture methods, we hope to improve the calculator further.
+The sources used for the various sections can be found here:
+``Travel``
+https://www.carbonfootprint.com/calculator.aspx
+``Energy``
+https://www.ukpower.co.uk/home_energy/compare_electricity
+https://www.ovoenergy.com/guides/energy-guides/how-much-electricity-does-a-home-use.html
+https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/587337/DECC_factsheet_11.11.16_GLAZING_LOCKED.pdf
+https://www.yesenergysolutions.co.uk/advice/how-much-energy-solar-panels-produce-home
+``Food``
+https://blogs.ei.columbia.edu/2012/09/04/how-green-is-local-food/
+``Extras``
+https://theconversation.com/how-smartphones-are-heating-up-the-planet-92793
+
