@@ -239,9 +239,165 @@ Containers hold complete and complex structures of individual "Pages" within the
 The routing and authentication is handled by the App container and each View is responsible for displaying information correctly
 
 App
-^^^
+---
+Parameters:
+* ``actions``:
+* ``history``:
+* ``drizzle``:
+* ``drizzleState``:
+* ``computedMatch``:
+* ``stripe``:
 
-App Container containing the entirety of the creol dapp
+Behaviour:
+TO-DO
+
+Returns:
+The routes for the different pages
+
+
+``resolveWeb3Modal`` TO-DO
+Parameters:
+``props`` TO-DO
+``specifiedProvider`` TO-DO
+Returns:
+TO-DO
+
+``setDrizzleRedux`` TO-DO
+Parameters:
+``props`` TO-DO
+``provider`` TO-DO
+Returns:
+TO-DO
+
+``resolveLayout`` TO-DO
+Parameters:
+``props`` TO-DO
+Returns:
+TO-DO
+
+``NFTResolve`` TO-DO
+Parameters:
+``props`` TO-DO
+Returns:
+TO-DO
+
+``shouldComponentUpdate`` TO-DO
+Parameters:
+``nextProps`` TO-DO
+``nextState`` TO-DO
+Returns:
+TO-DO
+
+``componentWillUnmount`` TO-DO
+Parameters:
+Returns:
+TO-DO
+
+``getDerivedStateFromProps`` TO-DO
+Parameters:
+``nextProps`` TO-DO
+``nextState`` TO-DO
+Returns:
+TO-DO
+
+``mapStateToProps`` TO-DO
+Parameters:
+``state`` TO-DO
+Returns:
+TO-DO
+
+``mapDispatchToProps`` TO-DO
+Parameters:
+``dispatch`` TO-DO
+Returns:
+TO-DO
+
+
+LandingLayoutRoute
+~~~~~~~~~~~~~~~~~~
+Parameters:
+``component`` TO-DO
+Returns:
+TO-DO
+
+Header
+______
+Parameters:
+``history`` TO-DO
+Returns:
+TO-DO
+
+``handleChange`` TO-DO
+Parameters:
+``event`` TO-DO
+``newValue`` TO-DO
+Returns:
+TO-DO
+
+``updateURL`` TO-DO
+Parameters:
+``tab`` TO-DO
+Returns:
+TO-DO
+
+
+NormalLayoutRoute
+~~~~~~~~~~~~~~~~~
+Parameters:
+``component`` TO-DO
+Returns:
+TO-DO
+
+Footer
+______
+Parameters:
+``history`` TO-DO
+Returns:
+TO-DO
+
+FooterNavigation
+****************
+Parameters:
+``history`` TO-DO
+Returns:
+TO-DO
+
+OpenIconSpeedDialMenu
+*********************
+Parameters:
+``history`` TO-DO
+Returns:
+TO-DO
+
+``SpeedDials`` TO-DO
+Parameters:
+``props`` TO-DO
+Returns:
+TO-DO
+
+``handleDirectionChange`` TO-DO
+Parameters:
+``event`` TO-DO
+Returns:
+
+``handleHiddenChange`` TO-DO
+Parameters:
+``event`` TO-DO
+Returns:
+
+``handleClose`` TO-DO
+Parameters:
+``name`` TO-DO
+Returns:
+
+``handleOpen`` TO-DO
+Parameters:
+Returns:
+
+styles
+~~~~~~
+This folder contains the default styling for the text, links and animations.
+
 
 
 AccountView
@@ -391,6 +547,9 @@ FAQ View is meant to display a standalone FAQ page. It is now deprecated and not
 
 LandingView
 ^^^^^^^^^^^
+
+The LandingView is currently the homepage of beta.creol.io and is built using the Fullpage.js library. Each section is managed
+by its own component. 
 
 LoginView
 ^^^^^^^^^
