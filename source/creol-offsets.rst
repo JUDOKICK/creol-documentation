@@ -443,6 +443,75 @@ OfficeQuestionnaireView contains the React framework for the business calculator
 5 distinct sections (Employees, Energy and premises, Equipment, Travel, Goods). The fullpage library is used to
 split the calculator into the various question pages.
 
+``setFullpage`` stores a version of fullpage in the state so that components outside the fullpage wrapper can control slide movement
+.. note:: Storing fullpage in a state results in the 'Cannot update during an existing state transition' warning
+Parameters:
+``fullpageApi`` The fullpage object
+Returns:
+
+``StartQuestionnaire`` function to move to the first question and sets the 'ProgressOn' state to display the progress components
+Parameters:
+``fullpageApi`` The fullpage object
+
+``MoveQuestionnaire`` function to move to the next appropriate slide. If this is the last question, calculator moves to result page
+Parameters:
+``fullpageApi`` The fullpage object
+``QuestionNumber`` Number indicating position in the questionnaire
+Returns:
+
+``MoveToPreviousQuestion`` function to move to the previous slide. If this is the first question, calculator doesn't move
+Parameters:
+``fullpageApi`` The fullpage object
+``QuestionNumber`` Number indicating position in the questionnaire
+Returns:
+
+``UpdateRegion`` function to set the user's location
+Parameters:
+``RegionID`` Numerical representation of the user's geographical location (1:UK, 2:EU, 3: US, 2: World)
+Returns:
+
+``UpdateCategory`` function update the category display state based on question number
+Parameters:
+``QuestionNumber`` Number indicating position in the questionnaire
+Returns:
+Callbacks:
+``UpdateProgress``
+
+``UpdateProgress`` function to update the appropriate circular progress component
+Parameters:
+``QuestionNumber`` Number indicating position in the questionnaire
+``Category`` String specifying current question category
+Returns:
+
+``ReturnQuestion`` function to return the React components based on the question number
+Parameters:
+``QuestionNumber`` Number indicating position in the questionnaire
+``RegionID`` Numerical representation of user's geographical region
+``fullpageApi`` The API necessary to move to different slides
+Returns:
+The React components based on the specified regionID and QuestionNumber
+
+
+``UpdateQuestionFootprint`` function to handle the outputs from each question
+Parameters:
+``footprintAddition`` The output from the given question
+``QuestionNumber`` Numerical representation of current question
+``fullpageApi`` The API necessary to move to different
+Returns:
+Callbacks:
+``UpdateTotalFootprint``
+
+
+``UpdateTotalFootprint`` function to calculate the total calculator footprint
+Parameters:
+Returns:
+Callbacks: ``ScaleResults``
+
+
+``ScaleResults`` function to appropriately scale the graph results based on the previous months results
+``ResultArray`` An array of the results for each category (Employee,Energy,Equipment,Food)
+Parameters:
+Returns:
 
 EmailSignup
 ~~~~~~~~~~~
@@ -465,8 +534,42 @@ Parameters:
 * FoodWasted: Increase factor for wasting food, number
 * RegionID: Numerical representation of user's geographic location, number
 
-Returns
+Returns:
+
 A text field which only accepts a valid email. Upon the user submitting an email, a Zapier link is triggered, sending an email with the user's personalised results.
+
+``handleChange`` event handler to set the email state depending on user input
+Parameters:
+Returns:
+
+``handleSubmit`` function to send out an automated email on the submission of the email address using a Zapier hook
+Parameters:
+``TotalFootprint``
+``EmployeeFootprint``
+``EnergyFootprint``
+``RecyclingPercentage``
+``GreenSupplierReduction``
+``LightingType``
+``OfficeImprovements``
+``TechPurchases``
+``DeviceReplacementRate``
+``MeatFreeDays``
+``LocallySourced``
+``FoodWasted``
+``RegionID``
+Returns:
+
+``GetAverageFootprint`` function to return the average footprint of a given region
+Parameters:
+``RegionID`` A number corresponding to the region of the user
+Returns:
+The average footprint for that region
+
+``GetRegionName`` function to return the name of a given region
+Parameters:
+``RegionID`` A number corresponding to the region of the user
+Returns:
+Name of chosen region
 
 QuestionContainer
 ~~~~~~~~~~~~~~~~~
@@ -484,7 +587,8 @@ Parameters:
 * QuestionNumber: The numerical position of the question in the questionnaire
 * RegionID: Numerical representation of user's geographic location
 
-Behaviour
+Behaviour:
+
 The QuestionContainer component parses OfficeQuestionnaireData to determine the appropriate component, options and
 associated footprint for every question.
 There are currently nine distinct component types:
@@ -499,8 +603,55 @@ There are currently nine distinct component types:
 * Multiple Inputs
 * Info
 
-Returns
+Returns:
+
 The question title and the relevant component
+
+``ReturnQuestionTitle`` function to parse the question title from the JSON
+Parameters:
+``QuestionNumber`` Number indicating position in the questionnaire
+Returns:
+React heading of the question title
+
+``DetermineRegionOptions`` function to return the appropriate question options based on region
+Parameters:
+``QuestionNumber`` Number indicating position in the questionnaire
+``RegionID`` A numerical representation of the user's geographical location
+Returns:
+An array specifying which component to use and what the associated options are
+
+
+``UpdateQuestionFootprint`` function to update state based on the question answer
+Parameters:
+``footprintAddition`` Result from the question
+``footprintMultiplier`` Carbon footprint impact of the chosen option
+``props`` Required to pass state to parent component
+Returns:
+
+``ReturnQuestionComponents`` function to return the appropriate component based on the component name
+Parameters:
+``RegionOptions`` An array containing component type and the appropriate question options for that region
+``props`` Required to pass state to parent component
+Returns:
+The React framework for the specified component
+
+``ReturnQuestionContent`` function to combine the different content for the question
+Parameters:
+``QuestionNumber`` Number indicating position in the questionnaire
+``RegionID`` A numerical representation of the user's geographical location
+``props`` Required to pass state to parent component
+Returns:
+Entire React component for the question
+
+``handleFootprintChange`` pass state to parent component when an option is chosen
+Parameters:
+``props`` Required to pass state to parent component
+Returns:
+
+``handleArrayChange`` pass state to parent component when an option is chosen
+Parameters:
+``props`` Required to pass state to parent component
+Returns:
 
 NumberInput
 ~~~~~~~~~~~
@@ -516,6 +667,52 @@ Checks if the input is a number - only passes the state up if it meets this crit
 Returns
 The number input field
 
+``handleChange`` pass state to parent component when an option is entered if the option is a number
+Parameters:
+``props`` Required to pass state to parent component
+``input`` input from the number input field
+Returns:
+Callbacks:
+``handleInputChange``
+
+``handleInputChange`` pass state to parent component when an option is entered if the option is a number
+Parameters:
+``props`` Required to pass state to parent component
+``input`` input from the number input field
+Returns:
+
+Question
+^^^^^^^^
+Parameters:
+
+* QuestionNumber: The numerical position of the question in the questionnaire, number
+* RegionID: Numerical representation of user's geographic location, number
+
+Returns:
+
+The multiple choice question component
+
+``ReturnQuestionContent`` function to map and return the question options
+Parameters:
+Returns:
+Callbacks:
+``UpdateFootprint``
+
+
+``UpdateFootprint`` function to update state after a multiple choice option is selected
+Parameters:
+``OptionValue`` footprint value of the chosen option
+``props`` Required to pass state to parent component
+Returns:
+Callbacks:
+``handleFootprintChange``
+
+
+``handleFootprintChange`` function to pass the state up to the parent component
+Parameters:
+``props`` Required to pass state to parent component
+Returns:
+
 
 Selection
 ~~~~~~~~~
@@ -529,6 +726,28 @@ Parameters:
 Returns
 A dropdown selection component
 
+
+``ReturnSelectArray`` function to map and return the select options
+Parameters:
+``CheckboxOptions`` Array of data corresponding to the region's select options
+Return:
+React component of the select option mapping
+
+
+``UpdateFootprint``
+Parameters:
+``Value`` associated footprint value of the selected option
+``props`` Required to pass state to parent component
+Return:
+Callbacks:
+``handleSelectChange``
+
+
+``handleSelectChange``
+Parameters:
+``props`` Required to pass state to parent component
+Return:
+
 Counter
 ~~~~~~~
 
@@ -537,27 +756,150 @@ Parameters:
 * CounterOptions: The array of options for the counter buttons and their associated footprint, array
 * SelectOptions: The array of options for the dropdown menu and their associated footprint (Optional - used in Counter and Select), array
 
-Returns
+Returns:
+
 The array of counter components and (optional) an adjacent selection dropdown component for each counter
+
+``ReturnCounterComponents`` function to map and return the counter components
+Parameters:
+``CounterOptions`` Array of data corresponding to the region's counter options
+``SelectOptions``Array of data corresponding to the region's select options (optional)
+``props`` Required to pass state to parent component
+Return:
+React component of the counter option mapping, also returns select components if SelectOptions are provided
+Callbacks:
+``UpdateCounter``
+``DetermineStateName``
+``ReturnSelect``
+
+``ReturnSelect`` function to return the select component
+``SelectOptions``Array of data corresponding to the region's select options (optional)
+``OptionName`` string used to update footprint in later function
+``props`` Required to pass state to parent component
+Parameters:
+Return: React component of the select option mapping
+Callbacks:
+``UpdateSelectFootprint``
+
+``UpdateSelectFootprint``
+Parameters:
+``footprintAddition`` Output from the Select component
+``OptionName`` String used to update appropriate footprint
+``props`` Required to pass state to parent component
+Return:
+Callbacks:
+``UpdateQuestionFootprint``
+
+``DetermineStateName``
+Parameters:
+``OptionName`` string used to identify relevant state
+Return:
+Appropriate state
+
+``UpdateCounter`` function to update the relevant counter display
+Parameters:
+``Array`` Array containing option name and associated footprint
+``Value`` amount to update counter display by
+``props`` Required to pass state to parent component
+Return:
+Callbacks:
+``UpdateQuestionFootprint``
+
+
+``UpdateQuestionFootprint`` function to update the total footprint of this question
+Parameters:
+``CounterValue`` Associated value of chosen counter option
+``SelectValue`` Associated value of chosen select option
+``props`` Required to pass state to parent component
+Return:
+Callbacks:
+``handleCounterChange``
+
+``handleCounterChange`` function to pass the state up to the parent component
+Parameters:
+``props`` Required to pass state to parent component
+Return:
 
 Checkbox
 ~~~~~~~~
 
 Parameters:
+
 * CheckboxOptions: The array of options for the checkbox component and their associated footprint, array
 
 Returns:
+
 A set of toggleable checkbox options
+
+
+``ReturnCheckboxContent`` function to map and return the checkbox options
+Parameters:
+``CheckboxOptions`` Array of data corresponding to the regions checkbox options
+``props`` Required to pass state to parent component
+Returns:
+React component of the checkbox option mapping
+Callbacks:
+``UpdateFootprint``
+
+``UpdateFootprint`` function to update the state when a checkbox item is selected or deselected
+Parameters:
+``Value`` The associated footprint value of that selection
+``CheckboxState`` Boolean of whether that particular checkbox is currently selected or not
+``props`` required for updating the total question state
+Returns:
+Callbacks:
+``handleCheckboxChange``
+
+
+``handleCheckboxChange`` function to pass the state up to the parent component
+Parameters:
+``props`` required for updating the total question state
+Returns:
 
 
 Multiple Number Input
 ~~~~~~~~~~~~~~~~~~~~~
 
 Parameters:
+
 * InputData: The array of options for the various number inputs including name, description and associated footprint, array
 
-Returns
+Returns:
+
 An array of number input options - each displaying an image, input field and a description
+
+
+``ReturnComponents`` function to map and return the multiple input options
+Parameters:
+``InputData`` Relevant data for populating the multiple input component
+``props`` required for updating the total question state
+Returns:
+React component containing multiple inputs
+Callbacks:
+``DetermineImage``
+``UpdateQuestionFootprint``
+
+
+``DetermineImage`` function to return the appropriate image
+Parameters:
+``TierName`` String used to determine the appropriate image
+Returns:
+Relevant option image
+
+``UpdateQuestionFootprint`` function to update the appropriate state upon input change
+Parameters:
+``footprintAddition`` result from the chosen input field
+``InputType`` String used to determine the appropriate state
+``props`` required for updating the total question state
+Returns:
+Callbacks:
+``handleOutputChange``
+
+
+``handleOutputChange`` function to pass the state up to the parent component
+Parameters:
+``props`` required for updating the total question state
+Returns:
 
 
 QuestionnaireView
@@ -579,70 +921,442 @@ This calculator relies on four distinct question types:
 * AccommodationSelect
 * Checkbox
 
-And four supplementary components:
+And three supplementary components:
 
 * EmailSignup
 * DialogContent
-* Progress
 * RegionSelection
 
 
+``UpdateRegion`` function to set the user's location
+Parameters:
+``RegionID`` Numerical representation of the user's geographical location (1:UK, 2:EU, 3: US, 2: World)
+Returns:
+
+
+``UpdateQuestionNumber`` function to update the progress display and section title based on change in question number
+Parameters:
+``QuestionNo`` A number corresponding to the user's progress in the Questionnaire
+Returns:
+
+
+``StartQuestionnaire`` function to render content and move to the appropriate slide on beginning the questionnaire
+Parameters:
+``fullpageApi`` The API necessary to move to different slides
+Returns:
+
+
+``EndQuestionNumber`` function to render content and move to the appropriate slide on finishing the questionnaire
+Parameters:
+``fullpageApi`` The API necessary to move to different slides
+Returns:
+
+
+`HandleTransportChoice`` function to move the user to the appropriate question based on the answer to the first transport question
+Parameters:
+``fullpageApi`` The API necessary to move to different slides
+``value`` The user's answer to the relevant question
+Returns:
+
+
+``UpdateStateVariable`` function to perform the appropriate actions for a given question
+``QuestionNumber`` A number corresponding to the user's progress in the Questionnaire
+``fullpageApi`` The API necessary to move to different slides
+``value`` The user's answer to the relevant question
+Parameters:
+Returns:
+Callbacks:
+`HandleTransportChoice``
+``UpdateTotalFootprint``
+
+
+``UpdateCarFootprint`` function to update the state of the CarFootprint based on the combination of answers
+Parameters:
+Returns:
+Callbacks:
+``UpdateTotalFootprint``
+
+
+``UpdateTotalFootprint`` function to update the user's total footprint based on their questionnaire answers
+Parameters:
+Returns:
+Callbacks:
+``SubscriptionRecommended``
+
+
+``setFullpage`` stores a version of fullpage in the state so that components outside the fullpage wrapper can control slide movement
+.. note:: Storing fullpage in a state results in the 'Cannot update during an existing state transition' warning
+Parameters:
+``fullpageApi`` The fullpage object
+Returns:
+
+
+
+``setPreviousSlide`` function to store the index of the preceding slide
+Parameters:
+Returns:
+
+
+``handlePreviousQuestion`` function to move to the preceding question or, if slide is first of a section, moves to the last of a previous question
+Parameters:
+Returns:
+
+
+``SubscriptionRecommended`` function to suggest subscription tier based on calculated footprint
+Parameters:
+Returns:
+
+
+``componentDidMount`` removes the header artifact from the main page
+Parameters:
+Returns:
 
 
 Question
 ~~~~~~~~
 Parameters:
+
 * QuestionNumber: The numerical position of the question in the questionnaire, number
 * RegionID: Numerical representation of user's geographic location, number
 
 Returns:
+
 The multiple choice question component
+
+
+``formatQuestionTitle`` function to parse the question from the JSON file for a given question
+Parameters:
+``QuestionJSON`` the entire JSON data for the individual carbon footprint calculator
+``QuestionNumber`` the current question number
+Returns:
+A string of the question
+
+
+``formatQuestionOptions`` function to return the appropriate values for the question based on the region
+Parameters:
+``QuestionJSON`` the entire JSON data for the individual carbon footprint calculator
+``QuestionNumber`` the current question number
+``RegionID`` A number relating to the user's geographical location
+Returns:
+An array of arrays containing the question options
+
+
+``returnRadioArray`` function to map the appropriate question options
+Parameters:
+``QuestionJSON`` the entire JSON data for the individual carbon footprint calculator
+``QuestionNumber`` the current question number
+``RegionID`` A number relating to the user's geographical location
+``props`` Required to pass state up to parent component
+Returns:
+
+
+``updateFootprint`` function to update the state when a question option is chosen
+Parameters:
+``value`` Associated footprint of the chosen option
+``props`` Required to pass state up to parent component
+Returns:
+
+
+``handleRadioChange`` function to pass the state up to the parent component
+Parameters:
+``props`` Required to pass state up to parent component
+Returns:
+
 
 FlightCounter
 ~~~~~~~~~~~~~
 Parameters:
+
 * QuestionNumber: The numerical position of the question in the questionnaire, number
 * RegionID: Numerical representation of user's geographic location, number
 
 Behaviour:
+
 The JSON data is parsed to separate the question, options and related footprints. Each counter is tied to its own
 separate state which is incremented on the press of the '+' or '-' button. This updates the total footprint based on the
 associated value of that counter.
 
 Returns:
+
 An array of counter buttons relating to the different flight options
+
+
+``getFlightFootprintValue`` function get the associated value for a given flight
+Parameters:
+``props`` Required to pass state up to parent component
+Returns:
+
+
+
+``formatFlightFootprints`` function to return the appropriate options based on the region (1:UK, 2:EU, 3:US, 4:World)
+Parameters:
+``QuestionJSON`` the entire JSON data for the individual carbon footprint calculator
+``QuestionNumber`` the current question number
+``RegionID`` A number relating to the user's geographical location
+Returns:
+An array of arrays containing the flight question options
+
+
+``formatQuestionTitle`` function to parse the question from the JSON file for a given question
+Parameters:
+``QuestionJSON`` the entire JSON data for the individual carbon footprint calculator
+``QuestionNumber`` the current question number
+Returns:
+A string of the question
+
+
+``updateFlights`` function to update the footprint state of the total and the corresponding option
+Parameters:
+``OptionName`` string of the selected options name
+``value`` associated footprint value of that option
+``currentQuestionState`` The quantity of flights displayed by the counter
+``QuestionNumber`` the current question number
+``RegionID`` A number relating to the user's geographical location
+``props`` Required to pass state up to parent component
+Returns:
+Callbacks:
+``updateFootprintTotal``
+
+
+``handleFlightFootprint`` function to pass the state up to the parent component
+Parameters:
+``props`` Required to pass state up to parent component
+Returns:
+
+
+``updateFootprintTotal`` function update the total footprint state
+Parameters:
+``OptionName`` string of the selected options name
+``value`` associated footprint value fo that option
+``currentQuestionState`` The quantity of flights displayed by the counter
+``QuestionNumber`` the current question number
+``RegionID`` A number relating to the user's geographical location
+``props`` Required to pass state up to parent component
+Returns:
+Callbacks:
+``handleFlightFootprint`
+
+
+``lookupButtonStateName`` function to return corresponding state for a given option
+Parameters:
+``OptionName`` string of the selected options name
+Returns:
+The relevant state
+
+
+``constructFlightQuestions`` function update the footprint state of the total and the corresponding option
+Parameters:
+``Options`` An array of options containing the flight question info
+``QuestionNumber`` the current question number
+``RegionID`` A number relating to the user's geographical location
+``props`` Required to pass state up to parent component
+Returns:
+The React framework for the flights question
+
 
 AccommodationSelect
 ~~~~~~~~~~~~~~~~~~~
 Parameters:
+
 * QuestionNumber: The numerical position of the question in the questionnaire, number
 * RegionID: Numerical representation of user's geographic location, number
 
 Behaviour:
+
 The JSON data is parsed to separate the question, options and related footprints. Populates the question with the three
 select components - each option having an associated footprint tied to it. Upon change of one of the select options,
 the question footprint is recalculated and passed up to the parent component.
 
 Returns:
+
 The accommodation question and three select dropdowns relating to the three elements of the accommodation calculation
+
+
+``formatQuestionTitle`` function to return the appropriate values for the question based on the region
+Parameters:
+``QuestionJSON`` the entire JSON data for the individual carbon footprint calculator
+``QuestionNumber`` the current question number
+Returns:
+A string of the question
+
+``formatQuestionOptions`` function to return the appropriate answers for the first select dropdown
+Parameters:
+``QuestionJSON`` the entire JSON data for the individual carbon footprint calculator
+``QuestionNumber`` the current question number
+``RegionID`` A number relating to the user's geographical location
+Returns:
+An array of arrays containing the question options
+
+``formatQuestionOptions2`` function to return the appropriate answers for the second select dropdown
+Parameters:
+``QuestionJSON`` the entire JSON data for the individual carbon footprint calculator
+``QuestionNumber`` the current question number
+``RegionID`` A number relating to the user's geographical location
+Returns:
+An array of arrays containing the question options
+
+``formatQuestionOptions3`` function to return the appropriate answers for the third select dropdown
+Parameters:
+``QuestionJSON`` the entire JSON data for the individual carbon footprint calculator
+``QuestionNumber`` the current question number
+``RegionID`` A number relating to the user's geographical location
+Returns:
+An array of arrays containing the question options
+
+``returnSelectArray`` function to return the appropriate dropdown options
+Parameters:
+``QuestionJSON`` the entire JSON data for the individual carbon footprint calculator
+``QuestionNumber`` the current question number
+``RegionID`` A number relating to the user's geographical location
+Returns:
+A React component of the individual dropdown options
+
+``UpdateFootprint`` function to update the state when a select option is chosen
+Parameters:
+``value`` associated footprint value of that option
+``selectNumber`` The numerical index of the chosen select component
+``props`` Required to pass state up to parent component
+Returns:
+Callbacks:
+``UpdateQuestionValue``
+
+``UpdateQuestionValue`` function to update the total footprint for the question
+Parameters:
+``props`` Required to pass state up to parent component
+Returns:
+Callbacks:
+``handleSelectChange``
+
+``handleSelectChange`` function to pass the state up to the parent component
+Parameters:
+Returns:
+
 
 Checkbox
 ~~~~~~~~
 Parameters:
+
 * QuestionNumber: The numerical position of the question in the questionnaire, number
 * RegionID: Numerical representation of user's geographic location, number
 
 Behaviour:
+
 Each checkbox option has an associated footprint - the toggled options are all added together, this question footprint
 is then passed up to the parent component
 
 Returns:
+
 A set of toggleable checkbox options
+
+
+``formatQuestionTitle`` function to return the appropriate values for the question based on the region
+Parameters:
+``QuestionJSON`` the entire JSON data for the individual carbon footprint calculator
+``QuestionNumber`` the current question number
+Returns:
+A string of the question
+
+
+``formatQuestionOptions`` function to return the appropriate options for the checkbox questions
+Parameters:
+``QuestionJSON`` the entire JSON data for the individual carbon footprint calculator
+``QuestionNumber`` the current question number
+``RegionID`` A number relating to the user's geographical location
+Returns:
+An array of arrays containing the checkbox options
+
+
+``returnCheckboxArray`` A function to map the appropriate checkbox options
+Parameters:
+``QuestionJSON`` the entire JSON data for the individual carbon footprint calculator
+``QuestionNumber`` the current question number
+``RegionID`` A number relating to the user's geographical location
+``props`` Required to pass state up to parent component
+Returns:
+A React component of the individual checkbox options
+Callbacks:
+``formatQuestionOptions``
+
+
+``updateFootprint`` function to update the state when a checkbox item is selected or deselected
+Parameters:
+``value`` The associated footprint value of that selection
+``checkboxState`` Boolean of whether that particular checkbox is currently selected or not
+``props`` Required to pass state up to parent component
+Returns:
+Callbacks:
+``handleCheckboxChange``
+
+
+``handleCheckboxChange`` function to pass the state up to the parent component
+Parameters:
+``props`` Required to pass state up to parent component
+Returns:
+
 
 EmailSignup
 ~~~~~~~~~~~
 
 Parameters:
+
+* TotalFootprint: The user's total footprint from the calculator, number
+* CarFootprint: The user's footprint from the Car question, number
+* MotorcycleFootprint: The user's footprint from the Motorcycle question, number
+* BusFootprint: The user's footprint from the Bus question, number
+* TrainFootprint: The user's footprint from the Train question, number
+* FlightFootprint: The user's footprint from the Flight question, number
+* HomeFootprint: The user's footprint from the Home question, number
+* HomeImprovements: The user's footprint from the Home Improvements question, number
+* FoodFootprint: The user's footprint from the Food question, number
+* RestaurantFootprint: The user's footprint from the Restaurant question, number
+* HotelFootprint: The user's footprint from the Hotel question, number
+* FashionFootprint: The user's footprint from the Fashion question, number
+* AccessoryFootprint: The user's footprint from the Accessory question, number
+
+Returns:
+
+A text field which only accepts a valid email. Upon the user submitting an email, a Zapier link is triggered,
+sending an email with the user's personalised results.
+
+
+``handleChange`` event handler to set the email state depending on user input
+Parameters:
+Returns:
+
+``handleSubmit`` function to send out an automated email on the submission of the email address using a Zapier hook
+Parameters:
+``TotalFootprint``
+``EmployeeFootprint``
+``EnergyFootprint``
+``RecyclingPercentage``
+``GreenSupplierReduction``
+``LightingType``
+``OfficeImprovements``
+``TechPurchases``
+``DeviceReplacementRate``
+``MeatFreeDays``
+``LocallySourced``
+``FoodWasted``
+``RegionID``
+Returns:
+
+``GetAverageFootprint`` function to return the average footprint of a given region
+Parameters:
+``RegionID`` A number corresponding to the region of the user
+Returns:
+The average footprint for that region
+
+``GetRegionName`` function to return the name of a given region
+Parameters:
+``RegionID`` A number corresponding to the region of the user
+Returns:
+Name of chosen region
+
+DialogContent
+^^^^^^^^^^^^^
+Parameters:
+
+* ModalOn: Boolean to determine whether the modal should be open or not, boolean
 * TotalFootprint: The user's total footprint from the calculator, number
 * CarFootprint: The user's footprint from the Car question, number
 * MotorcycleFootprint: The user's footprint from the Motorcycle question, number
@@ -658,11 +1372,328 @@ Parameters:
 * AccessoryFootprint: The user's footprint from the Accessory question, number
 
 
+Behaviour:
+
+Upon clicking the backdrop or submitting their email, the modal will close. The ModalOn prop controls whether the
+modal is open or not.
+
+Returns:
+
+A popup modal advertising a discount with the EmailSignup component embedded within.
+
+
+``handleClose`` function to change the state controlling whether the modal is open
+Parameters:
+``props`` Required to pass state up to parent component
+Returns:
+
+
+``handleChange`` function to pass state to parent component
+Parameters:
+``props`` Required to pass state up to parent component
+Returns:
+
+RegionSelection
+^^^^^^^^^^^^^^^
+Parameters:
+
+Behaviour:
+
+Each region has a numerical index assigned:
+1. UK
+2. EU
+3. US
+4. World
+The default selection is UK. The selected region controls the currency display and the question options provided.
+
+Returns:
+
+A dropdown selection for the user to choose their location. Regional flags display upon selection. (Optional) Also returns ``DialogBox`` underneath
+
+
+``SetRegion`` function to set the state for the current region
+Parameters:
+``NewValue`` A number corresponding to a user's geographical location
+``props`` Required to pass state up to parent component
+Returns:
+Callbacks:
+``handleRegionChange``
+``GetRegionImage``
+
+
+``handleRegionChange`` function to pass state to parent component
+Parameters:
+``props`` Required to pass state up to parent component
+Returns:
+
+
+``GetRegionImage`` function to return the corresponding image based on the region
+Parameters:
+``NewValue`` A number corresponding to a user's geographical location
+Returns:
+The relevant flag svg image
+
+
+``GetAverageFootprint`` function to return the corresponding average footprint based on the region
+Parameters:
+Returns:
+The average carbon footprint per capita in a given region
+
+
+
+DialogBox
+^^^^^^^^^
+
+Parameters:
+
+Returns:
+A button offering more info on the questionnaire. Upon clicking, a modal pops up and explains the methodology
+
+``handleClickOpen`` function to set the state controlling whether the modal visibility to open
+Parameters:
+Returns:
+
+
+``handleChange`` function to set the state controlling whether the modal visibility to closed
+Parameters:
+Returns:
+
+
+
+
+
+
+
 
 Core
 ----
 -
 
 Data
-----
--
+====
+
+BenefitsData
+------------
+This data is used to populate the 'Benefits' section in LandingView. The data is structured to make the parsing of this
+data easier. The hierarchy for this data goes as follows:
+* 1st level - Benefits
+* 2nd level - Benefit number (e.g. 1, 2, 3, etc.)
+* 3rd level - Benefit data (panelHeading, panelDetails)
+* 3rd level (Heading) - Contains a string which dictates the heading of a given benefit panel
+* 3rd level (Details) - Contains a string which controls the given benefit panel's description
+
+
+FAQData
+------------
+This data is used to populate the 'FAQ' section in LandingView. The data is structured to make the parsing of this
+data easier. The hierarchy for this data goes as follows:
+* 1st level - FAQs
+* 2nd level - FAQ number (e.g. 1, 2, 3, etc.)
+* 3rd level - FAQ data (panelHeading, panelDetails)
+* 3rd level (Heading) - Contains a string which dictates the heading of a given FAQ panel
+* 3rd level (Details) - Contains a string which controls the given FAQ panel's description
+
+
+NFTInfo
+-------
+This data is used to populate the example NFT. The data is structured to make the parsing of this
+data easier. The hierarchy for this data goes as follows:
+* 1st level - projects
+* 2nd level - 868
+* 3rd level (title) - Contains a string controlling the title of the NFT
+* 3rd level (summaryText) - Contains a string summarising the NFT description
+* 3rd level (expandedText) - Contains a string with the full NFT description
+* 3rd level (imgPath) - Contains a string with a path to the appropriate image for this NFT
+* 3rd level (imgAlt) - Contains a string with a short description of the image
+* 3rd level (vcsLink) - Contains a string with a link to the associated project
+
+OfficeQuestionnaireData
+-----------------------
+This data is used to populate the business questionnaire with questions, components and associated footprints. The data
+is structured to make the parsing of this data easier. The general hierarchy for this data goes as follows:
+* 1st level - Questions
+* 2nd level - Question number (e.g. 1, 2, 3, etc.)
+* 3rd level - Question data (Question, Regional Options, Component, Category)
+* 4th level (Question) - Contains a string of the question (e.g. "How many employees would you like to offset?")
+* 4th level (Options) - This section contains the option name and the associated value of that option for each
+individual region. The structure changes depending on the chosen component - the behaviour of the options section is
+detailed below
+* 4th level (Component) - Contains a string specifying the component to use for this question
+* 4th level (Category) - Contains a string specifying the category that question belongs to
+
+Options
+The options section is first separated into the four different regions (UKOptions, EUOptions, USOptions and
+WorldOptions). Different regions are required since the associated values of some of the options may be different in
+different countries.
+Within these region options, the data is structured to suit the chosen component:
+``Question`` This component returns a multiple choice question - as such, the data is formatted so one parent array
+contains arrays of each individual option
+[["Option 1 name" (string), Option 1 value (number)], ["Option 2 name" (string), Option 2 value (number)]...]
+``Select`` This component returns a dropdown choice with multiple options. The data is structured exactly the same way
+as the 'Question' component
+[["Option 1 name" (string), Option 1 value (number)], ["Option 2 name" (string), Option 2 value (number)]...]
+``Checkbox`` This component returns a checkbox with multiple options. The data is structured exactly the same way
+as the 'Question' component
+[["Option 1 name" (string), Option 1 value (number)], ["Option 2 name" (string), Option 2 value (number)]...]
+``Counter`` This component returns multiple 'counter' components which allow a value to be incremented (See counter
+component). The data is structured exactly the same way as the 'Question' component
+[["Option 1 name" (string), Option 1 value (number)], ["Option 2 name" (string), Option 2 value (number)]...]
+``Number Input`` This component returns a field allowing for a numerical input. The data is structured exactly the same way
+as the 'Question' component, however only requires one option to populate the component.
+[["Option 1 name" (string), Option 1 value (number)]]
+``Counter and Select`` This component combines the 'counter' and 'select' components. The data is structured so that
+within each region, there are full options provided for both the Counter and the Select component, the data for both
+these subcomponents is structured the same way as the 'Question' component
+"Counter":[["Option 1 name" (string), Option 1 value (number)], ["Option 2 name" (string), Option 2 value (number)]...]
+"Select":[["Option 1 name" (string), Option 1 value (number)], ["Option 2 name" (string), Option 2 value (number)]...]
+``Multiple Number Input`` This component returns a number of the 'Number Input' component. The data is structured
+exactly the same way as the 'Number Input' component, however, a parent array contains the arrays of all the 'Number
+Input' children
+[["Number Input 1"], ["Number Input 2"], ["Number Input 3"]]
+``Multiple Inputs`` This component returns two 'Number Input' components providing different options, so that the user
+can choose which they want to fill out. Within the region, two sets of data are required for the two 'Number Input'
+components. This data is structured exactly the same way as the 'Number Input' component
+"Input1": [["Option 1 name" (string), Option 1 value (number)]]
+"Input2": [["Option 2 name" (string), Option 2 value (number)]]
+``Info`` This component is purely used to display a block of text to the user, as such, there is no data given for any
+of the regions
+[]
+
+Data
+.. note:: The data used in this calculator has been sourced from the most appropriate and up-to date sources available at the
+time of building the calculator. However, given the complexities of carbon footprint calculation and the necessary
+simplification for the purposes of this questionnaire, the calculated result may not be fully representative. However,
+through improvement of data capture methods, we hope to improve the calculator further.
+
+The sources used for the various sections can be found here:
+``Employees``
+https://climatesmartbusiness.com/wp-content/uploads/2013/05/CS-IND-BRIEF-OFFICES-FINAL-DIGITAL.pdf
+``Energy, Premises and Recycling``
+https://www.ledonecorp.com/using-led-lighting-to-reduce-your-carbon-footprint/#:~:text=Lighting%20alone%20creates%2017%25%20of,162%20coal%2Dfired%20power%20plants!
+https://ie.unc.edu/files/2016/03/green_public_housing_presentation.pdf
+http://publications.lib.chalmers.se/records/fulltext/136412.pdf
+``Equipment``
+https://www.researchgate.net/publication/267414572_A_Carbon_Footprint_of_an_Office_Building
+http://www.arcom.ac.uk/-docs/proceedings/ar2002-129-136_Aye_et_al.pdf
+``Travel``
+https://www.carbonfootprint.com/calculator.aspx
+https://mapmyemissions.com/home
+https://www.icao.int/environmental-protection/Carbonoffset/Pages/default.aspx
+
+
+BusinessOneOffData
+------------------
+This data is used to populate the business side of the one-off purchases panel. The hierarchy of this data goes as follows:
+* 1st level - Region (UK, EU, US, World)
+* 2nd level - Card number (e.g. 1, 2, 3, etc.)
+* 3rd level - This section contains the card data which is detailed in two parts:
+* 3rd level(1) - The first piece of data at this level specifies a string to be used as the card title
+* 3rd level(2) - The second piece of data at this level is an array made up of 3 pieces of data:
+1) Option Name (string)
+2) Option footprint (number)
+3) Required component (number) - the component is specified by an index (0: Counter, 1: Number Input, 2: Info message. See QuestionnaireView component for more info)
+4) Input field label (string)
+Structure: CardTitle, [Option Name, Option Footprint, Required Component, Input field label (Optional)]
+.. note:: The input field label only needs to be included when the required component is a 'Number Input' (Required Component = 1)
+
+
+OneOffData
+----------
+This data is used to populate the individual side of the one-off purchases panel. The hierarchy of this data goes as follows:
+* 1st level - Region (UK, EU, US, World)
+* 2nd level - Card number (e.g. 1, 2, 3, etc.)
+* 3rd level - This section contains the card data which is detailed in two parts:
+* 3rd level(1) - The first piece of data at this level specifies a string to be used as the card title
+* 3rd level(2) - The second piece of data at this level is an array made up of 4 pieces of data:
+1) Option Name (string)
+2) Option footprint (number)
+3) Required component (number) - the component is specified by an index (0: Counter, 1: Number Input, 2: Info message. See QuestionnaireView component for more info)
+4) Input field label (string)
+Structure: CardTitle, [Option Name, Option Footprint, Required Component, Input field label (Optional)]
+.. note:: The input field label only needs to be included when the required component is a 'Number Input' (Required Component = 1)
+
+
+ProjectData
+-----------
+This data is used to populate the 'Projects' section in the LandingView. The hierarchy for this data goes as follows:
+* 1st level - Projects
+* 2nd level - Project number (e.g. 1, 2, 3, etc.)
+* 3rd level (Title) - Contains a string specifying the project title
+* 3rd level (Subtitle) - Contains a string specifying the project subtitle
+* 3rd level (Description) - Contains a string specifying the project description
+
+
+QuestionnaireData
+-----------------
+This data is used to populate the individual questionnaire with questions, and associated footprints. The data
+is structured to make the parsing of this data easier. The general hierarchy for this data goes as follows:
+* 1st level - Questions
+* 2nd level - Question number (e.g. 1, 2, 3, etc.)
+* 3rd level - Question data (Question, Options)
+* 4th level (Question) - Contains a string of the question (e.g. "How many employees would you like to offset?")
+* 4th level (Options) - This section contains the option name and the associated value of that option for each
+individual region. The structure of this data stays consistent for every question:
+[["Option 1 name" (string), Option 1 value (number)], ["Option 2 name" (string), Option 2 value (number)]...]
+
+.. note::The options section is first separated into the four different regions (UKOptions, EUOptions, USOptions and
+WorldOptions). Different regions are required since the associated values of some of the options may be different in
+different countries.
+
+Data
+.. note:: The data used in this calculator has been sourced from the most appropriate and up-to date sources available at the
+time of building the calculator. However, given the complexities of carbon footprint calculation and the necessary
+simplification for the purposes of this questionnaire, the calculated result may not be fully representative. However,
+through improvement of data capture methods, we hope to improve the calculator further.
+The sources used for the various sections can be found here:
+``Travel``
+https://www.carbonfootprint.com/calculator.aspx
+``Energy``
+https://www.ukpower.co.uk/home_energy/compare_electricity
+https://www.ovoenergy.com/guides/energy-guides/how-much-electricity-does-a-home-use.html
+https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/587337/DECC_factsheet_11.11.16_GLAZING_LOCKED.pdf
+https://www.yesenergysolutions.co.uk/advice/how-much-energy-solar-panels-produce-home
+``Food``
+https://blogs.ei.columbia.edu/2012/09/04/how-green-is-local-food/
+``Extras``
+https://theconversation.com/how-smartphones-are-heating-up-the-planet-92793
+
+
+RoadmapData
+-----------
+This data is used to populate the 'Roadmap' section in LandingView. The data is structured to make the parsing of this
+data easier. The hierarchy for this data goes as follows:
+* 1st level - Roadmap
+* 2nd level - Slide number (e.g. 1, 2, 3, etc.)
+* 3rd level - Slide data (panelHeading, panelDetails)
+* 3rd level (Heading) - Contains a string which dictates the heading of a given roadmap panel
+* 3rd level (Details) - Contains a string which controls the given roadmap panel's description
+
+
+SubscriptionData
+----------------
+This data is used to handle the subscription panel component. The data is structured to make the parsing of this
+data easier. The hierarchy for this data goes as follows:
+* 1st level - subscriptions
+* 2nd level - Subscription Tier (Eco Burner, Eco Warrior, Eco Saviour)
+* 3rd level - FAQ data (panelHeading, panelDetails)
+* 3rd level (name) - String specifying name of a chosen subscription
+* 3rd level (image) - String containing path to image for a chosen subscription
+* 3rd level (imageAlt) - String description of the image
+* 3rd level (subscriptionText) - String specifying benefits of subscribing
+* 3rd level (subscriptionSubText) - String with stating price equivalence
+* 3rd level (subPrice) - String price of a chosen subscription in GBP
+* 3rd level (subPriceEU) - String price of a chosen subscription in €
+* 3rd level (subPricePromo) - String price of a chosen subscription at promo cost in GBP
+* 3rd level (subPricePromoEU) - String price of a chosen subscription at promo cost in €
+* 3rd level (stripeCode) - String product ID for standard subscription in GBP
+* 3rd level (stripeCodeEU) - String product ID for standard subscription in €
+* 3rd level (stripeCodePromo) - String product ID for promo subscription in GBP
+* 3rd level (stripeCodePromoEU) - String product ID for promo subscription in €
+* 3rd level (stripeTestCode) - String productID for testing
+* 3rd level (stripeTrialCode) - String productID for free trial
+* 3rd level (stripeTrialCodeEU) - String productID for free trial
+* 3rd level (stripeTaxCodeVAT) - String productID for VAT
+* 3rd level (stripeCouponCode) - String productID for coupon discount
+* 3rd level (tierID) - String of number indicating subscription tier
+* 3rd level (treesEquivalent) - String of tree equivalence for a chosen subscription
+* 3rd level (carMilesEquivalent) - String of car miles equivalence for a chosen subscription
