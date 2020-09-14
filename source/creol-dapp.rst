@@ -108,12 +108,208 @@ Props:
 
 ``actions``: actions object used within ``mapDispatchToProps`` to set state in Redux
 
+AddScheduleView
+^^^^^^^^^^^^^^^
+AddScheduleView contains the necessary parameter inputs for a user to register a new schedule.
+
+Props:
+``drizzle``: drizzle object passed in, allowing access drizzle contracts and methods
+
+``drizzleState``: drizzleState object giving access to user address
+
+``history``: history object allowing the app to 'push' to different pages
+
+Functions:
+
+``handleOnTimeChange``
+Determines whether clock should read 'AM' or 'PM'
+
+Parameters:
+``event``: Event object from time change
+``value``: Value from time change
+
+Returns:
+
+
+``handleOffTimeChange``
+Determines whether clock should read 'AM' or 'PM'
+
+Parameters:
+``event``: Event object from time change
+``value``: Value from time change
+
+Returns:
+
+
+``fetchSiteData``
+Calls the ControlState contract from drizzle to set site data state
+
+Parameters:
+``address``: a string containing the user's address
+``drizzle``: drizzle object used to access contracts
+
+Returns:
+
+
+``returnSiteContent``
+Returns dynamically generated buttons tied to sites
+
+Parameters:
+``siteArray``: an array containing all relevant site data
+
+Returns:
+React framework for site button mapping
+
+
+``handleSiteSelection``
+Calls ``fetchRoomData`` and sets active panel state
+
+Parameters:
+``site``: array containing the data tied to a selected site
+``index``: numerical index of the selected site
+
+Returns:
+
+
+``fetchRoomData``
+Creates and calls the SiteState contract from drizzle to set room data state
+
+Parameters:
+``siteData``: array containing the data tied to a selected site
+``index``: numerical index of the selected site
+
+Returns:
+
+
+``returnRoomContent``
+Returns dynamically generated buttons tied to rooms
+
+Parameters:
+``roomArray``: an array containing all relevant room data
+
+Returns:
+React framework for room button mapping
+
+
+``handleRoomSelection``
+Calls ``fetchGroupData`` and sets active panel state
+
+Parameters:
+``site``: array containing the data tied to a selected room
+``index``: numerical index of the selected room
+
+
+``fetchGroupData``
+Creates and calls the RoomState contract from drizzle to set group and LED data state
+
+Parameters:
+``roomData``: array containing the data tied to a selected room
+``index``: numerical index of the selected room
+
+Returns:
+
+
+``returnGroupContent``
+Returns dynamically generated ``checkboxExpansionPanel`` components tied to groups and their constituent LEDs
+
+Parameters:
+``groupArray``: an array containing all relevant group data
+``LEDArray``: an array containing all relevant LED data
+
+Returns:
+React framework for group expansion panel mapping
+
+
+``returnLEDContent``
+Returns dynamically generated card components tied to constituent LEDs
+
+Parameters:
+``LEDArray``: an array containing all relevant LED data
+``groupIndex``: numerical index of the selected group
+
+Returns:
+React framework for LED card mapping
+
+
+``updateGroupStates``
+Updates array of binaries state relating to whether the various group checkboxes are ticked or not
+
+Parameters:
+``state``: binary relating to whether the selected group is ticked or not
+``index``: numerical index of the selected group
+
+Returns:
+
+
+``handleFadeTimeChange``
+Sets state upon fade time radio selection
+
+Parameters:
+``event``: Event object from fade time radio change
+``value``: Value from fade time radio change
+
+Returns:
+
+
+``handleSensorChange``
+Sets state upon sensor radio selection
+
+Parameters:
+``event``: Event object from sensor radio change
+``value``: Value from sensor radio change
+
+Returns:
+
+
+``handlePanelChange``
+Sets state upon opening of a new panel
+
+Parameters:
+``event``: Event object from panel selection
+``value``: Value from panel selection
+
+Returns:
+
+
+CheckboxExpansionPanel
+~~~~~~~~~~~~~~~~~~~~~~
+Adapted expansion panel to feature a checkbox selection
+
+Props:
+``expansionHeading``: object containing the strings for the two columns of the expansion panel heading
+``expansionContent``: React content for expanded panel view
+``backgroundVariant``: Boolean determining whether the expanded background should change colour
+
+Functions:
+
+``updateCheckbox``
+Sets state upon selection of the checkbox
+
+Parameters:
+``event``: Event object from checkbox selection
+``value``: Value from checkbox selection
+``props``: props necessary tp pass state to parent component
+
+Returns:
+
+
+``handleCheckboxChange``
+Passes state to parent component upon selection of the checkbox
+
+Parameters:
+``props``: props necessary tp pass state to parent component
+
+Returns:
+
 
 EnergyView
 ^^^^^^^^^^^
 EnergyView contains the React framework for the three metric pages (Energy, Carbon, Ranking)
 
 Props:
+
+Functions:
+
 
 DisplayCard
 ~~~~~~~~~~~
