@@ -47,7 +47,7 @@ Containers
 ----------
 
 DemoChoiceView
-^^^^^^^^^^^
+^^^^^^^^^^^^^^
 The Demo Choice page comes after the user has chosen their Web3 provider. This page asks the user to choose one of their registered access hubs or to view a demo version of the app.
 
 ``componentDidMount`` the logic found within this hook is used to query and return any corresponding access hubs registered to the user's address.
@@ -685,7 +685,7 @@ Return:
 Relevant card data
 
 RankView
-~~~~~~~
+~~~~~~~~
 Page to display the further details on the user's ranking
 
 Props:
@@ -702,7 +702,7 @@ Return:
 Relevant card data
 
 TreeView
-~~~~~~~
+~~~~~~~~
 Page to display the user's carbon metrics in relation to trees
 
 Props:
